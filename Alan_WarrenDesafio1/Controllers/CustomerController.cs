@@ -22,6 +22,15 @@ namespace Alan_WarrenDesafio1.Controllers
             return Ok(_datacostumer.Customers);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            if (ctm == null) return BadRequest();            
+            return Ok(ctm);
+        }
+
+
         [HttpPost]
         public IActionResult Post(Customer customer)
         {
@@ -41,8 +50,7 @@ namespace Alan_WarrenDesafio1.Controllers
 
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, Customer customer)
-        {
-            
+        {         
             return Ok();
         }
         [HttpDelete("{id}")]

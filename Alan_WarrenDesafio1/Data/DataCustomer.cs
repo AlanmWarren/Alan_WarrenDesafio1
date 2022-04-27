@@ -53,7 +53,6 @@ namespace Alan_WarrenDesafio1.Data
         {
             var ctm = Customers.FirstOrDefault(c => c.Id == id);
             if (ctm == null) return false;
-
             
             ctm.Id = customer.Id;
             ctm.FullName = customer.FullName;

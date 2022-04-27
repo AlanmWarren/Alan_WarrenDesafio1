@@ -1,4 +1,6 @@
-﻿using Alan_WarrenDesafio1.Models;
+﻿
+
+using Alan_WarrenDesafio1.Models;
 using FluentValidation;
 
 namespace Alan_WarrenDesafio1.Validators
@@ -24,11 +26,11 @@ namespace Alan_WarrenDesafio1.Validators
                    .WithMessage("Email length must be more than 10");
 
             RuleFor(c => c.EmailConfirmation)
-               .NotEmpty()
+               .NotEmpty()              
                    .WithMessage("EmailConfirmation must not be null or empty")
                .MinimumLength(5)
                    .WithMessage("EmailConfirmation length must be more than 5");
-
+            
             RuleFor(c => c.Cpf)
                .NotEmpty()
                    .WithMessage("Cpf must not be null or empty")

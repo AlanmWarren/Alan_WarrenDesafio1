@@ -8,6 +8,11 @@
         public Customer(int id, string fullName, string email, string emailConfirmation, string cpf, string cellphone, /*DateOnly birthdate,*/
             bool emailSms, bool whatsapp, string country, string city, string postalCode, string adress, string number)
         {
+            if (emailConfirmation != email)
+            {
+                email = null;
+                emailConfirmation = null;
+            }
             Id = id;
             FullName = fullName;
             Email = email;
@@ -24,7 +29,7 @@
             Number = number;
         }
 
-
+       
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
