@@ -2,24 +2,17 @@
 {
     public class Customer
     {
-        public Customer()
+        public Customer() { }
+        public Customer(int id, string fullName, string email, string emailConfirmation, string cpf, string cellphone, DateTime birthdate,
+            bool emailSms, bool whatsapp, string country, string city, string postalCode, string adress, int number)
         {
-        }
-        public Customer(int id, string fullName, string email, string emailConfirmation, string cpf, string cellphone, /*DateOnly birthdate,*/
-            bool emailSms, bool whatsapp, string country, string city, string postalCode, string adress, string number)
-        {
-            if (emailConfirmation != email)
-            {
-                email = null;
-                emailConfirmation = null;
-            }
             Id = id;
             FullName = fullName;
             Email = email;
             EmailConfirmation = emailConfirmation;
             Cpf = cpf;
             Cellphone = cellphone;
-            //Birthdate = birthdate;
+            Birthdate = birthdate;
             EmailSms = emailSms;
             Whatsapp = whatsapp;
             Country = country;
@@ -29,22 +22,21 @@
             Number = number;
         }
 
-       
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string EmailConfirmation { get; set; }
         public string Cpf { get; set; }
         public string Cellphone { get; set; }
-        //public DateOnly Birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
         public bool EmailSms { get; set; }
         public bool Whatsapp { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Adress { get; set; }
-        public string Number { get; set; }
+        public int Number { get; set; }
 
-        
+
     }
 }

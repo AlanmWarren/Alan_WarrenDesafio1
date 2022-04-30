@@ -17,48 +17,31 @@ namespace Alan_WarrenDesafio1.Data
                 EmailConfirmation = "alanzuka@gmail.com",
                 Cpf = "123.123.123-12",
                 Cellphone = "47 96666-6666",
-                //Birthdate = 
+                Birthdate = new DateTime(2005,04,21),
                 EmailSms =  false,
                 Whatsapp = true,
                 Country = "Brasil",
                 City = "Blumenau",
                 PostalCode = "34545-123",
                 Adress = "Rua Juliano Flores",
-                Number = "222"
+                Number = 11
             }
         };
 
         public void Add(Customer customer)
         {
-            new Customer()
-            {
-                Id = customer.Id,
-                FullName = customer.FullName,
-                Email = customer.Email,
-                EmailConfirmation = customer.EmailConfirmation,
-                Cpf = customer.Cpf,
-                Cellphone = customer.Cellphone,
-                //Birthdate = customer.Birthdate,
-                EmailSms = customer.EmailSms,
-                Whatsapp = customer.Whatsapp,
-                Country = customer.Country,
-                City = customer.City,
-                PostalCode = customer.PostalCode,
-                Adress = customer.Adress,
-                Number = customer.Number
-            };
+            var LastId = Customers.Last().Id;
+            customer.Id = LastId + 1;
+            Customers.Add(customer);
         }
 
-        public bool Update(int id, Customer customer)
+        public void Update(Customer ctm, Customer customer)
         {
-            var ctm = Customers.FirstOrDefault(c => c.Id == id);
-            if (ctm == null) return false;
-            
-            ctm.Id = customer.Id;
             ctm.FullName = customer.FullName;
             ctm.EmailConfirmation = customer.EmailConfirmation;
             ctm.Cpf = customer.Cpf;
             ctm.Cellphone = customer.Cellphone;
+            ctm.Birthdate = customer.Birthdate;
             ctm.EmailSms = customer.EmailSms;
             ctm.Whatsapp = customer.Whatsapp;
             ctm.Country = customer.Country;
@@ -66,9 +49,6 @@ namespace Alan_WarrenDesafio1.Data
             ctm.PostalCode = customer.PostalCode;
             ctm.Adress = customer.Adress;
             ctm.Number = customer.Number;
-
-            return true;
-
         }
 
         public bool Delete(int id)
@@ -79,5 +59,11 @@ namespace Alan_WarrenDesafio1.Data
             return true;
         }
 
+        public bool VerifyEmail(Customer customer)
+        {
+            if (customer.Email == customer.EmailConfirmation) return true;
+
+            return false;
+        }
     }
 }

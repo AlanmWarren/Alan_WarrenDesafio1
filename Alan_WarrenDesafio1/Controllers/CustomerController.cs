@@ -26,42 +26,52 @@ namespace Alan_WarrenDesafio1.Controllers
         public IActionResult GetById(int id)
         {
             var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
-            if (ctm == null) return BadRequest();            
+            if (ctm == null) return NotFound("Customer not found");
             return Ok(ctm);
         }
-
+        [HttpGet("byid")]
+        public IActionResult GetByIdQS(int id)
+        {
+            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            if (ctm == null) return NotFound("Customer not found");
+            return Ok(ctm);
+        }
 
         [HttpPost]
         public IActionResult Post(Customer customer)
         {
-            _datacostumer.Add(customer);
-            return Ok(customer);
+            if (_datacostumer.VerifyEmail(customer))
+            {
+                _datacostumer.Add(customer);
+                return Created("~api/customer", customer);
+            }
+            return NotFound("Invalid email and email confirmation, please try again");
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Customer customer)
         {
-            if (_datacostumer.Update(id, customer))
-            {
-                return Ok(customer);
-            }
-            return BadRequest("Pessoa não encontrada");
+            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            if (ctm == null) return NotFound("Customer not found");
+            _datacostumer.Update(ctm, customer);
+            return Ok(ctm);
         }
 
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, Customer customer)
-        {         
+        {
             return Ok();
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             if (_datacostumer.Delete(id))
             {
-                return Ok();
+                return Ok("Customer successfully deleted");
             }
-            return BadRequest("Pessoa não encontrada");
+            return NotFound("Customer not found");
         }
-
+        //Falta o Birthdate, number e talvez o patch também 
     }
 }

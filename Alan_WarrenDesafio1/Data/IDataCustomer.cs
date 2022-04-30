@@ -7,8 +7,8 @@ namespace Alan_WarrenDesafio1.Data
         public List<Customer> Customers { get; set; }
 
         public void Add(Customer customer);
-        public bool Update(int id, Customer customer);
+        public void Update(Customer ctm, Customer customer);
         public bool Delete(int id);
-         
+        public bool VerifyEmail(Customer customer);
     }
 }
