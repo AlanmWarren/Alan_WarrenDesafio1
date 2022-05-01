@@ -10,29 +10,38 @@ namespace Alan_WarrenDesafio1.Controllers
     public class CustomerController : ControllerBase
     {
 
-        public readonly IDataCustomer _datacostumer;
+        public readonly IDataCustomer _datacustomer;
         public CustomerController(IDataCustomer dataCustomer)
         {
-            _datacostumer = dataCustomer;
+            _datacustomer = dataCustomer;
         }
 
         [HttpGet]
         public IActionResult Get()
-        {
-            return Ok(_datacostumer.Customers);
+        {           
+            return Ok(_datacustomer.Customers);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
-            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            var ctm = _datacustomer.Customers.FirstOrDefault(c => c.Id == id);
             if (ctm == null) return NotFound("Customer not found");
             return Ok(ctm);
         }
-        [HttpGet("byid")]
-        public IActionResult GetByIdQS(int id)
+
+        [HttpGet("{fullname}")]
+        public IActionResult GetByFullName(string fullName)
         {
-            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            var ctm = _datacustomer.Customers.FirstOrDefault(c => c.FullName == fullName);
+            if (ctm == null) return NotFound("Customer not found");
+            return Ok(ctm);
+        }
+
+        [HttpGet("byFullName")]
+        public IActionResult GetByFullNameByQueryString(string fullName)
+        {
+            var ctm = _datacustomer.Customers.FirstOrDefault(c => c.FullName == fullName);
             if (ctm == null) return NotFound("Customer not found");
             return Ok(ctm);
         }
@@ -40,38 +49,30 @@ namespace Alan_WarrenDesafio1.Controllers
         [HttpPost]
         public IActionResult Post(Customer customer)
         {
-            if (_datacostumer.VerifyEmail(customer))
+            if (_datacustomer.VerifyEmail(customer))
             {
-                _datacostumer.Add(customer);
+                _datacustomer.Add(customer);
                 return Created("~api/customer", customer);
             }
-            return NotFound("Invalid email and email confirmation, please try again");
+            return BadRequest("Invalid email and email confirmation, please try again");
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Customer customer)
         {
-            var ctm = _datacostumer.Customers.FirstOrDefault(c => c.Id == id);
+            var ctm = _datacustomer.Customers.FirstOrDefault(c => c.Id == id);
             if (ctm == null) return NotFound("Customer not found");
-            _datacostumer.Update(ctm, customer);
+            _datacustomer.Update(ctm, customer);
             return Ok(ctm);
-        }
-
-        [HttpPatch("{id}")]
-        public IActionResult Patch(int id, Customer customer)
-        {
-            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (_datacostumer.Delete(id))
-            {
-                return Ok("Customer successfully deleted");
-            }
-            return NotFound("Customer not found");
+            var ctm = _datacustomer.Customers.FirstOrDefault(c => c.Id == id);
+            if (ctm == null) return NotFound("Customer not found");
+            _datacustomer.Delete(ctm);
+            return Ok("Customer successfully deleted");
         }
-        //Falta o Birthdate, number e talvez o patch também 
     }
 }

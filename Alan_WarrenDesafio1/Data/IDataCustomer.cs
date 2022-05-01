@@ -6,9 +6,9 @@ namespace Alan_WarrenDesafio1.Data
     {
         public List<Customer> Customers { get; set; }
 
-        public void Add(Customer customer);
-        public void Update(Customer ctm, Customer customer);
-        public bool Delete(int id);
+        public void Add(Customer customerInput);
+        public void Update(Customer customer, Customer customerInput);
+        public void Delete(Customer customer);
         public bool VerifyEmail(Customer customer);
     }
 }
