@@ -72,12 +72,5 @@ namespace Alan_WarrenDesafio1.Data
         {
             Customers.Remove(customer);
         }
-
-        public bool VerifyEmail(Customer customer)
-        {
-            if (customer.Email == customer.EmailConfirmation) return true;
-
-            return false;
-        }
     }
 }

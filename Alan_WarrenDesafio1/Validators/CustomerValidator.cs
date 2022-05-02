@@ -19,8 +19,8 @@ namespace Alan_WarrenDesafio1.Validators
             RuleFor(c => c.Email)
                .NotEmpty()
                     .WithMessage("Email must not be null or empty")
-               .MinimumLength(10)
-                    .WithMessage("Email length must be more than 10")
+               .MinimumLength(9)
+                    .WithMessage("Email length must be more than 9 digits")
                .MaximumLength(256)
                     .WithMessage("Email length must cannot have more than 256 digits")
                 .EmailAddress()
@@ -29,8 +29,8 @@ namespace Alan_WarrenDesafio1.Validators
             RuleFor(c => c.EmailConfirmation)
                .NotEmpty()
                     .WithMessage("Email Confirmation must not be null or empty")
-               .MinimumLength(10)
-                    .WithMessage("Email Confirmation length must be more than 10 digits")
+               .MinimumLength(9)
+                    .WithMessage("Email Confirmation length must be more than 9 digits")
                .MaximumLength(256)
                     .WithMessage("Email Confirmation length must cannot have more than 256 digits")
                 .EmailAddress()
@@ -41,14 +41,16 @@ namespace Alan_WarrenDesafio1.Validators
                     .WithMessage("Cpf must not be null or empty")
                .Length(14)
                     .WithMessage("Cpf length must contain 14 digits with the pontuation (warning: don't forget the pontuation, ex: 000.000.000-00)")
-               .Must(d => d.IsValidDocument())
+               .Must(d => d.IsValidCPF())
                     .WithMessage("Document is invalid, please try again (warning: don't forget the pontuation, ex: 000.000.000-00)");
 
             RuleFor(c => c.Cellphone)
                .NotEmpty()
                     .WithMessage("Cellphone must not be null or empty")
                .Length(11)
-                    .WithMessage("Cellphone must have 11 digits");
+                    .WithMessage("Cellphone must have 11 digits")
+               .Must(C => C.IsValidCellphone())
+                    .WithMessage("Cellphone is invalid, please try again");
 
             RuleFor(c => c.Birthdate)
                 .NotEmpty()
@@ -80,9 +82,13 @@ namespace Alan_WarrenDesafio1.Validators
 
             RuleFor(c => c.Number)
               .NotEmpty()
-                    .WithMessage("Number must not be null or empty");
+                    .WithMessage("Number must not be null or empty");          
+        }
+        public static bool ValidateEmail(Customer customer)
+        {
+            if (customer.Email == customer.EmailConfirmation) return true;
 
-            
+            return false;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Alan_WarrenDesafio1.Validators
 {
     public static class StringExtensions
     {
-        public static bool IsValidDocument(this string document)
+        public static bool IsValidCPF(this string document)
         {
             var expression = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}";
             return Regex.Match(document, expression).Success;
@@ -14,6 +14,11 @@ namespace Alan_WarrenDesafio1.Validators
         {
             var expression = "[0-9]{5}\\-?[0-9]{3}";
             return Regex.Match(cep, expression).Success;
+        }
+        public static bool IsValidCellphone(this string cellphone)
+        {
+            var expression = "[0-9]{2}?[0-9]{4}?[0-9]{4}";
+            return Regex.Match(cellphone, expression).Success;
         }
     }
 }
