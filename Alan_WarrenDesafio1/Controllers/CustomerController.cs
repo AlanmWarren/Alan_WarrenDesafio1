@@ -133,7 +133,7 @@ namespace Alan_WarrenDesafio1.Controllers
             if (CustomerValidator.ValidateEmail(customer))
             {
                 _datacustomer.Create(customer);
-                return Created("~api/customer", customer);
+                return Created("~api/customer", "Customer sucessfully registered with ID: " + customer.Id);
             }
             return BadRequest("Invalid email and email confirmation, please try again");
         }
