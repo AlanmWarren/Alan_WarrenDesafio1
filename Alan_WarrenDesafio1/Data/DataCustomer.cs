@@ -45,7 +45,7 @@ namespace Alan_WarrenDesafio1.Data
             }
         };
 
-        public void Add(Customer customerInput)
+        public void Create(Customer customerInput)
         {
             var LastId = Customers.Last().Id;
             customerInput.Id = LastId + 1;
