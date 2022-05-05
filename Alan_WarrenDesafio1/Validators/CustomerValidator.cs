@@ -54,7 +54,10 @@ namespace Alan_WarrenDesafio1.Validators
 
             RuleFor(c => c.Birthdate)
                 .NotEmpty()
-                    .WithMessage("Birthdate must not be null or empty");
+                    .WithMessage("Birthdate must not be null or empty")
+                .LessThan(DateTime.Parse("01/01/2004"))
+                    .WithMessage("The customer must be at least 18 years old ");
+
 
             RuleFor(c => c.Country)
                .NotEmpty()
