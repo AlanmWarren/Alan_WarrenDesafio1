@@ -10,87 +10,98 @@ namespace Alan_WarrenDesafio1.Validators
         {
             RuleFor(c => c.FullName)
                 .NotEmpty()
-                     .WithMessage("Full name must not be null or empty")
-                .MinimumLength(3)
-                     .WithMessage("Full name length must be more than 3 digits")
-                .MaximumLength(50)
-                     .WithMessage("Full name length must cannot have more than 50 digits");
+                .WithMessage("Full name must not be null or empty")
+                .MinimumLength(2)
+                .WithMessage("Full name length must be more than 2 digits")
+                .MaximumLength(300)
+                .WithMessage("Full name length must cannot have more than 50 digits");
 
             RuleFor(c => c.Email)
                .NotEmpty()
-                    .WithMessage("Email must not be null or empty")
+               .WithMessage("Email must not be null or empty")
                .MinimumLength(9)
-                    .WithMessage("Email length must be more than 9 digits")
+               .WithMessage("Email length must be more than 9 digits")
                .MaximumLength(256)
-                    .WithMessage("Email length must cannot have more than 256 digits")
-                .EmailAddress()
-                    .WithMessage("Email is invalid, please try again");
+               .WithMessage("Email length must cannot have more than 256 digits")
+               .EmailAddress()
+               .WithMessage("Email is invalid, please try again");
 
             RuleFor(c => c.EmailConfirmation)
-               .NotEmpty()
-                    .WithMessage("Email Confirmation must not be null or empty")
-               .MinimumLength(9)
-                    .WithMessage("Email Confirmation length must be more than 9 digits")
-               .MaximumLength(256)
-                    .WithMessage("Email Confirmation length must cannot have more than 256 digits")
+                .NotEmpty()
+                .WithMessage("Email Confirmation must not be null or empty")
+                .MinimumLength(9)
+                .WithMessage("Email Confirmation length must be more than 9 digits")
+                .MaximumLength(256)
+                .WithMessage("Email Confirmation length must cannot have more than 256 digits")
                 .EmailAddress()
-                    .WithMessage("Email Confirmation is invalid, please try again");
+                .WithMessage("Email Confirmation is invalid, please try again");
+
+            RuleFor(c => c)
+                .Must(c => c.Email == c.EmailConfirmation)
+                .WithMessage("Invalid email and email confirmation, please try again");
 
             RuleFor(c => c.Cpf)
                .NotEmpty()
-                    .WithMessage("Cpf must not be null or empty")
+               .WithMessage("Cpf must not be null or empty")
                .Length(14)
-                    .WithMessage("Cpf length must contain 14 digits with the pontuation (warning: don't forget the pontuation, ex: 000.000.000-00)")
+               .WithMessage("Cpf length must contain 14 digits with the pontuation (warning: don't forget the pontuation, ex: 000.000.000-00)")
                .Must(d => d.IsValidCPF())
-                    .WithMessage("Document is invalid, please try again (warning: don't forget the pontuation, ex: 000.000.000-00)");
+               .WithMessage("Document is invalid, please try again (warning: don't forget the pontuation, ex: 000.000.000-00)");
 
             RuleFor(c => c.Cellphone)
                .NotEmpty()
-                    .WithMessage("Cellphone must not be null or empty")
+               .WithMessage("Cellphone must not be null or empty")
                .Length(11)
-                    .WithMessage("Cellphone must have 11 digits")
+               .WithMessage("Cellphone must have 11 digits")
                .Must(C => C.IsValidCellphone())
-                    .WithMessage("Cellphone is invalid, please try again");
+               .WithMessage("Cellphone is invalid, please try again");
 
             RuleFor(c => c.Birthdate)
                 .NotEmpty()
-                    .WithMessage("Birthdate must not be null or empty")
-                .LessThan(DateTime.Parse("01/01/2004"))
-                    .WithMessage("The customer must be at least 18 years old ");
-
+                .WithMessage("Birthdate must not be null or empty")
+                .LessThan(DateTime.Now)
+                .WithMessage("Birthdate invalid, please insert a valid birthdate");
 
             RuleFor(c => c.Country)
                .NotEmpty()
-                    .WithMessage("Country must not be null or empty")
+               .WithMessage("Country must not be null or empty")
                .MaximumLength(58)
-                    .WithMessage("Country must cannot have more than 58 digits");
+               .WithMessage("Country must cannot have more than 58 digits");
 
             RuleFor(c => c.City)
               .NotEmpty()
-                    .WithMessage("City must not be null or empty")
+              .WithMessage("City must not be null or empty")
               .MaximumLength(58)
-                    .WithMessage("City must cannot have more than 58 digits");
+              .WithMessage("City must cannot have more than 58 digits");
 
             RuleFor(c => c.PostalCode)
               .NotEmpty()
-                    .WithMessage("Postal Code must not be null or empty")
+              .WithMessage("Postal Code must not be null or empty")
               .Length(9)
-                    .WithMessage("Postal Code length must have 8 digits (warning: don't forget the pontuation, ex: 00000-00)")
+              .WithMessage("Postal Code length must have 8 digits (warning: don't forget the pontuation, ex: 00000-00)")
               .Must(p => p.IsValidCEP())
-                    .WithMessage("Postal Code is invalid (warning: don't forget the pontuation, ex: 00000-00)");
+              .WithMessage("Postal Code is invalid (warning: don't forget the pontuation, ex: 00000-00)");
 
             RuleFor(c => c.Adress)
               .NotEmpty()
-                    .WithMessage("Adress must not be null or empty");
+              .WithMessage("Adress must not be null or empty");
 
             RuleFor(c => c.Number)
               .NotEmpty()
-                    .WithMessage("Number must not be null or empty");          
+              .WithMessage("Number must not be null or empty");
         }
-        public static bool ValidateEmail(Customer customer)
+        public static bool CustomerExists(Customer newCustomer, IList<Customer> customers)
         {
-            if (customer.Email == customer.EmailConfirmation) return true;
-
+            foreach (Customer customer in customers)
+            {
+                if (
+                      customers.Any(x => x.FullName == newCustomer.FullName)
+                   || customers.Any(x => x.Email == newCustomer.Email)
+                   || customers.Any(x => x.Cpf == newCustomer.Cpf))
+                {
+                    return true;
+                }
+            }
             return false;
         }
     }
