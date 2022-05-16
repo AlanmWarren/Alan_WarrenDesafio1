@@ -10,7 +10,7 @@ namespace Alan_WarrenDesafio1.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        public readonly ICustomerServices _customersServices;
+        private readonly ICustomerServices _customersServices;
         public CustomersController(ICustomerServices customerServices)
         {
             _customersServices = customerServices;
@@ -34,20 +34,20 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersServices.GetById(x => x.Id == id) is null
+                return _customersServices.GetBy(x => x.Id == id) is null
                 ? NotFound()
-                : Ok(_customersServices.GetById(x => x.Id == id));
+                : Ok(_customersServices.GetBy(x => x.Id == id));
             });
         }
 
         [HttpGet("byFullName")]
-        public IActionResult GetByFullFullName(string fullName)
+        public IActionResult GetByFullName(string fullName)
         {
             return SafeAction(() =>
             {
-                return _customersServices.GetByFullName(fullName) is null
+                return _customersServices.GetBy(c => c.FullName == fullName) is null
                     ? NotFound()
-                    : Ok(_customersServices.GetByFullName(fullName));
+                    : Ok(_customersServices.GetBy(c => c.FullName == fullName));
             });
         }
 
@@ -56,9 +56,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersServices.GetByEmail(email) is null
+                return _customersServices.GetBy(c => c.Email == email) is null
                     ? NotFound()
-                    : Ok(_customersServices.GetByEmail(email));
+                    : Ok(_customersServices.GetBy(c => c.Email == email));
             });
         }
 
@@ -67,9 +67,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersServices.GetByCpf(cpf) is null
+                return _customersServices.GetBy(c => c.Cpf == cpf) is null
                     ? NotFound()
-                    : Ok(_customersServices.GetByCpf(cpf));
+                    : Ok(_customersServices.GetBy(c => c.Cpf == cpf));
             });
         }
 
@@ -112,7 +112,7 @@ namespace Alan_WarrenDesafio1.Controllers
             {
                 return _customersServices.Delete(id) is false
                     ? NotFound()
-                    : Ok("Customer successfully deleted");
+                    : NoContent();
             });
         }
 

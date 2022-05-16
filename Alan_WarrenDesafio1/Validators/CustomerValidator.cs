@@ -1,5 +1,4 @@
-﻿
-using Alan_WarrenDesafio1.Models;
+﻿using Alan_WarrenDesafio1.Models;
 using FluentValidation;
 
 namespace Alan_WarrenDesafio1.Validators
@@ -8,7 +7,7 @@ namespace Alan_WarrenDesafio1.Validators
     {
         public CustomerValidator()
         {
-            RuleFor(c => c.FullName)
+            RuleFor(x => x.FullName)
                 .NotEmpty()
                 .WithMessage("Full name must not be null or empty")
                 .MinimumLength(2)
@@ -16,7 +15,7 @@ namespace Alan_WarrenDesafio1.Validators
                 .MaximumLength(300)
                 .WithMessage("Full name length must cannot have more than 50 digits");
 
-            RuleFor(c => c.Email)
+            RuleFor(x => x.Email)
                .NotEmpty()
                .WithMessage("Email must not be null or empty")
                .MinimumLength(9)
@@ -26,7 +25,7 @@ namespace Alan_WarrenDesafio1.Validators
                .EmailAddress()
                .WithMessage("Email is invalid, please try again");
 
-            RuleFor(c => c.EmailConfirmation)
+            RuleFor(x => x.EmailConfirmation)
                 .NotEmpty()
                 .WithMessage("Email Confirmation must not be null or empty")
                 .MinimumLength(9)
@@ -36,31 +35,31 @@ namespace Alan_WarrenDesafio1.Validators
                 .EmailAddress()
                 .WithMessage("Email Confirmation is invalid, please try again");
 
-            RuleFor(c => c)
-                .Must(c => c.Email == c.EmailConfirmation)
+            RuleFor(x => x)
+                .Must(x => x.Email == x.EmailConfirmation)
                 .WithMessage("Invalid email and email confirmation, please try again");
 
-            RuleFor(c => c.Cpf)
+            RuleFor(x => x.Cpf)
                .NotEmpty()
                .WithMessage("Cpf must not be null or empty")
                .Length(14)
                .WithMessage("Cpf length must contain 14 digits with the pontuation (warning: don't forget the pontuation, ex: 000.000.000-00)")
-               .Must(d => d.IsValidCPF())
+               .Must(x => x.IsValidCPF())
                .WithMessage("Document is invalid, please try again (warning: don't forget the pontuation, ex: 000.000.000-00)");
 
-            RuleFor(c => c.Cellphone)
+            RuleFor(x => x.Cellphone)
                .NotEmpty()
                .WithMessage("Cellphone must not be null or empty")
                .Length(11)
                .WithMessage("Cellphone must have 11 digits")
-               .Must(C => C.IsValidCellphone())
+               .Must(x => x.IsValidCellphone())
                .WithMessage("Cellphone is invalid, please try again");
 
-            RuleFor(c => c.Birthdate)
+            RuleFor(x => x.Birthdate)
                 .NotEmpty()
                 .WithMessage("Birthdate must not be null or empty")
-                .LessThan(DateTime.Now)
-                .WithMessage("Birthdate invalid, please insert a valid birthdate");
+                .Must(y => CheckCustomerIsHigherThanEighteenYearsOld(y))
+                .WithMessage("The customer cannot be under 18 years of age");
 
             RuleFor(c => c.Country)
                .NotEmpty()
@@ -68,25 +67,25 @@ namespace Alan_WarrenDesafio1.Validators
                .MaximumLength(58)
                .WithMessage("Country must cannot have more than 58 digits");
 
-            RuleFor(c => c.City)
+            RuleFor(x => x.City)
               .NotEmpty()
               .WithMessage("City must not be null or empty")
               .MaximumLength(58)
               .WithMessage("City must cannot have more than 58 digits");
 
-            RuleFor(c => c.PostalCode)
+            RuleFor(x => x.PostalCode)
               .NotEmpty()
               .WithMessage("Postal Code must not be null or empty")
               .Length(9)
               .WithMessage("Postal Code length must have 8 digits (warning: don't forget the pontuation, ex: 00000-00)")
-              .Must(p => p.IsValidCEP())
+              .Must(x => x.IsValidCEP())
               .WithMessage("Postal Code is invalid (warning: don't forget the pontuation, ex: 00000-00)");
 
-            RuleFor(c => c.Adress)
+            RuleFor(x => x.Adress)
               .NotEmpty()
               .WithMessage("Adress must not be null or empty");
 
-            RuleFor(c => c.Number)
+            RuleFor(x => x.Number)
               .NotEmpty()
               .WithMessage("Number must not be null or empty");
         }
@@ -103,6 +102,12 @@ namespace Alan_WarrenDesafio1.Validators
                 }
             }
             return false;
+        }
+        public static bool CheckCustomerIsHigherThanEighteenYearsOld(DateTime birthdate)
+        {
+            var x = new DateTime(DateTime.Now.Year, birthdate.Month, birthdate.Day);
+            var diff = x.Year - birthdate.Year;
+            return diff >= 18;
         }
     }
 }
