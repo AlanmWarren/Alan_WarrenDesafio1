@@ -2,9 +2,21 @@
 {
     public class Customer
     {
-        public Customer() { }
-        public Customer(int id, string fullName, string email, string emailConfirmation, string cpf, string cellphone, DateTime birthdate,
-            bool emailSms, bool whatsapp, string country, string city, string postalCode, string adress, int number)
+        public Customer(
+            int id,
+            string fullName,
+            string email,
+            string emailConfirmation,
+            string cpf,
+            string cellphone,
+            DateTime birthdate,
+            bool emailSms,
+            bool whatsapp,
+            string country,
+            string city,
+            string postalCode,
+            string adress,
+            int number)
         {
             Id = id;
             FullName = fullName;
@@ -36,7 +48,5 @@
         public string PostalCode { get; set; }
         public string Adress { get; set; }
         public int Number { get; set; }
-
-
     }
 }

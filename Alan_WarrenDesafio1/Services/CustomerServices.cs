@@ -1,6 +1,4 @@
-﻿
-
-using Alan_WarrenDesafio1.Models;
+﻿using Alan_WarrenDesafio1.Models;
 using Alan_WarrenDesafio1.Validators;
 
 namespace Alan_WarrenDesafio1.Data
@@ -20,36 +18,9 @@ namespace Alan_WarrenDesafio1.Data
             return customer;
         }
 
-        public Customer GetById(Func<Customer,bool> predicate)
+        public Customer GetBy(Func<Customer, bool> predicate)
         {
             var customer = Customers.FirstOrDefault(predicate);
-
-            return customer is null
-                ? null
-                : customer;
-        }
-
-        public Customer GetByFullName(string fullName)
-        {
-            var customer = Customers.FirstOrDefault(x => x.FullName == fullName);
-
-            return customer is null
-                ? null
-                : customer;
-        }
-
-        public Customer GetByEmail(string email)
-        {
-            var customer = Customers.FirstOrDefault(x => x.Email == email);
-
-            return customer is null
-                ? null
-                : customer;
-        }
-
-        public Customer GetByCpf(string cpf)
-        {
-            var customer = Customers.FirstOrDefault(x => x.Cpf == cpf);
 
             return customer is null
                 ? null
@@ -60,24 +31,16 @@ namespace Alan_WarrenDesafio1.Data
         {
             if (CustomerValidator.CustomerExists(newCustomer, Customers)) return false;
 
-            if (Customers.Count == 0)
-            {
-                newCustomer.Id = 1;
-                Customers.Add(newCustomer);
-                return true;
-            }
-            else
-            {
-                var LastId = Customers.Last().Id;
-                newCustomer.Id = LastId + 1;
-                Customers.Add(newCustomer);
-                return true;
-            }
+            int autoIncrementId = Customers.LastOrDefault()?.Id ?? default;
+
+            newCustomer.Id = autoIncrementId + 1;
+            Customers.Add(newCustomer);
+            return true;
         }
 
         public int Update(int id, Customer newCustomer)
         {
-            var customerToUpdate = GetById(x => x.Id == id);
+            var customerToUpdate = GetBy(x => x.Id == id);
             if (customerToUpdate is null) return 1;
 
             customerToUpdate.FullName = newCustomer.FullName;
@@ -91,7 +54,7 @@ namespace Alan_WarrenDesafio1.Data
             customerToUpdate.City = newCustomer.City;
             customerToUpdate.PostalCode = newCustomer.PostalCode;
             customerToUpdate.Adress = newCustomer.Adress;
-            customerToUpdate.Number = newCustomer.Number; 
+            customerToUpdate.Number = newCustomer.Number;
 
             if (CustomerValidator.CustomerExists(customerToUpdate, Customers)) return 2;
 
@@ -101,7 +64,7 @@ namespace Alan_WarrenDesafio1.Data
 
         public bool Delete(int id)
         {
-            var customerToDelete = GetById(x => x.Id == id);
+            var customerToDelete = GetBy(x => x.Id == id);
             return customerToDelete is not null
             && Customers.Remove(customerToDelete);
         }
