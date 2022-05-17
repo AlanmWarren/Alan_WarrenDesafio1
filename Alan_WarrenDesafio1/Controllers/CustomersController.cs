@@ -1,6 +1,6 @@
 ﻿using Alan_WarrenDesafio1.Data;
 using Alan_WarrenDesafio1.Models;
-using AppServices;
+using Alan_WarrenDesafio1.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +10,10 @@ namespace Alan_WarrenDesafio1.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerAppService _customersAppService;
-        public CustomersController(ICustomerAppService customerServices)
+        private readonly ICustomerServices _customersServices;
+        public CustomersController(ICustomerServices customerServices)
         {
-            _customersAppService = customerServices;
+            _customersServices = customerServices;
         }
 
         [HttpGet]
@@ -21,7 +21,7 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var customers = _customersAppService.GetAll();
+                var customers = _customersServices.GetAll();
 
                 return !customers.Any()
                     ? NotFound()
@@ -34,9 +34,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetBy(x => x.Id == id) is null
+                return _customersServices.GetBy(x => x.Id == id) is null
                 ? NotFound()
-                : Ok(_customersAppService.GetBy(x => x.Id == id));
+                : Ok(_customersServices.GetBy(x => x.Id == id));
             });
         }
 
@@ -45,9 +45,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.FullName == fullName) is null
+                return _customersServices.GetBy(c => c.FullName == fullName) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.FullName == fullName));
+                    : Ok(_customersServices.GetBy(c => c.FullName == fullName));
             });
         }
 
@@ -56,9 +56,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.Email == email) is null
+                return _customersServices.GetBy(c => c.Email == email) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.Email == email));
+                    : Ok(_customersServices.GetBy(c => c.Email == email));
             });
         }
 
@@ -67,9 +67,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.Cpf == cpf) is null
+                return _customersServices.GetBy(c => c.Cpf == cpf) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.Cpf == cpf));
+                    : Ok(_customersServices.GetBy(c => c.Cpf == cpf));
             });
         }
 
@@ -78,7 +78,7 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.Create(newCustomer)
+                return _customersServices.Create(newCustomer) is true
                     ? Created("~api/customer", $"ID: {newCustomer.Id} Created")
                     : BadRequest("Customer already exists, please insert a new customer");
             });
@@ -89,7 +89,7 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var customerChangedCode = _customersAppService.Update(id, preCustomer);
+                var customerChangedCode = _customersServices.Update(id, preCustomer);
                 if (customerChangedCode == 1)
                 {
                     return NotFound();
@@ -110,7 +110,7 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return !_customersAppService.Delete(id)
+                return _customersServices.Delete(id) is false
                     ? NotFound()
                     : NoContent();
             });

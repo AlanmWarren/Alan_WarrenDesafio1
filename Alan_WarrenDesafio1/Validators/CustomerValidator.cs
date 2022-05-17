@@ -1,8 +1,5 @@
 ﻿using Alan_WarrenDesafio1.Models;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Alan_WarrenDesafio1.Validators
 {
@@ -92,7 +89,20 @@ namespace Alan_WarrenDesafio1.Validators
               .NotEmpty()
               .WithMessage("Number must not be null or empty");
         }
-        
+        public static bool CustomerExists(Customer newCustomer, IList<Customer> customers)
+        {
+            foreach (Customer customer in customers)
+            {
+                if (
+                      customers.Any(x => x.FullName == newCustomer.FullName)
+                   || customers.Any(x => x.Email == newCustomer.Email)
+                   || customers.Any(x => x.Cpf == newCustomer.Cpf))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public static bool CheckCustomerIsHigherThanEighteenYearsOld(DateTime birthdate)
         {
             var x = new DateTime(DateTime.Now.Year, birthdate.Month, birthdate.Day);

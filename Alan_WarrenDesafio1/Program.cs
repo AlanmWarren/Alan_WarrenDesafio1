@@ -1,7 +1,6 @@
 using Alan_WarrenDesafio1.Data;
 using Alan_WarrenDesafio1.Models;
 using Alan_WarrenDesafio1.Validators;
-using AppServices;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +16,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICustomerServices, CustomerServices>();
-builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

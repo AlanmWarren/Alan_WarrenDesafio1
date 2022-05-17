@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Alan_WarrenDesafio1.Models
+﻿namespace Alan_WarrenDesafio1.Models
 {
     public class Customer
     {
