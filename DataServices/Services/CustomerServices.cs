@@ -1,5 +1,7 @@
 ﻿using Alan_WarrenDesafio1.Models;
-using Alan_WarrenDesafio1.Validators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Alan_WarrenDesafio1.Data
 {
@@ -13,7 +15,7 @@ namespace Alan_WarrenDesafio1.Data
             {
                 return Customers;
             }
-            var customer = Customers.Where(predicate);
+            var customer = Customers.Where(predicate).ToList();
 
             return customer;
         }
@@ -22,14 +24,12 @@ namespace Alan_WarrenDesafio1.Data
         {
             var customer = Customers.FirstOrDefault(predicate);
 
-            return customer is null
-                ? null
-                : customer;
+            return customer;
         }
 
         public bool Create(Customer newCustomer)
         {
-            if (CustomerValidator.CustomerExists(newCustomer, Customers)) return false;
+            if (CustomerExists(newCustomer, Customers)) return false;
 
             int autoIncrementId = Customers.LastOrDefault()?.Id ?? default;
 
@@ -56,10 +56,9 @@ namespace Alan_WarrenDesafio1.Data
             customerToUpdate.Adress = newCustomer.Adress;
             customerToUpdate.Number = newCustomer.Number;
 
-            if (CustomerValidator.CustomerExists(customerToUpdate, Customers)) return 2;
+            if (CustomerExists(customerToUpdate, Customers)) return 2;
 
             return 0;
-
         }
 
         public bool Delete(int id)
@@ -67,6 +66,20 @@ namespace Alan_WarrenDesafio1.Data
             var customerToDelete = GetBy(x => x.Id == id);
             return customerToDelete is not null
             && Customers.Remove(customerToDelete);
+        }
+        private static bool CustomerExists(Customer newCustomer, IList<Customer> customers)
+        {
+            foreach (Customer customer in customers)
+            {
+                if (
+                      customers.Any(x => x.FullName == newCustomer.FullName)
+                   || customers.Any(x => x.Email == newCustomer.Email)
+                   || customers.Any(x => x.Cpf == newCustomer.Cpf))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
