@@ -11,6 +11,5 @@ namespace Alan_WarrenDesafio1.Data
         public bool Create(Customer newCustomer);
         public int Update(int id, Customer newCustomer);
         public bool Delete(int id);
-
     }
 }

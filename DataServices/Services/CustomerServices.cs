@@ -73,12 +73,7 @@ namespace Alan_WarrenDesafio1.Data
 
         private static bool CustomerExists(Customer newCustomer, IList<Customer> customers)
         {
-            if (customers.Any(x => x.Email == newCustomer.Email)
-             || customers.Any(x => x.Cpf == newCustomer.Cpf))
-            {
-                return true;
-            }
-            return false;
+            return customers.Any(x => x.Email == newCustomer.Email || x.Cpf == newCustomer.Cpf);
         }
     }
 }
