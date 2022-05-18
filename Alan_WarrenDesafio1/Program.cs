@@ -1,5 +1,4 @@
 using Alan_WarrenDesafio1.Data;
-using Alan_WarrenDesafio1.Models;
 using Alan_WarrenDesafio1.Validators;
 using AppServices;
 using FluentValidation.AspNetCore;

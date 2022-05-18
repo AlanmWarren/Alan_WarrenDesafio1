@@ -1,7 +1,5 @@
-﻿using Alan_WarrenDesafio1.Data;
-using Alan_WarrenDesafio1.Models;
+﻿using Alan_WarrenDesafio1.Models;
 using AppServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alan_WarrenDesafio1.Controllers
