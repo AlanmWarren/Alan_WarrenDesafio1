@@ -11,9 +11,9 @@ namespace Alan_WarrenDesafio1.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerAppService _customersAppService;
-        public CustomersController(ICustomerAppService customerServices)
+        public CustomersController(ICustomerAppService customerAppService)
         {
-            _customersAppService = customerServices;
+            _customersAppService = customerAppService;
         }
 
         [HttpGet]
@@ -34,9 +34,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetBy(x => x.Id == id) is null
+                return _customersAppService.GetBy(c => c.Id == id) is null
                 ? NotFound()
-                : Ok(_customersAppService.GetBy(x => x.Id == id));
+                : Ok(_customersAppService.GetBy(c => c.Id == id));
             });
         }
 
@@ -56,9 +56,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.Email == email) is null
+                return _customersAppService.GetBy(c => c.Email == email) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.Email == email));
+                    : Ok(_customersAppService.GetBy(c => c.Email == email));
             });
         }
 
@@ -67,9 +67,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.Cpf == cpf) is null
+                return _customersAppService.GetBy(c => c.Cpf == cpf) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.Cpf == cpf));
+                    : Ok(_customersAppService.GetBy(c => c.Cpf == cpf));
             });
         }
 
@@ -89,12 +89,13 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var customerChangedCode = _customersAppService.Update(id, preCustomer);
-                if (customerChangedCode == 1)
+                var customerToChangeProgressCode = _customersAppService.Update(id, preCustomer);
+
+                if (customerToChangeProgressCode == 1)
                 {
                     return NotFound();
                 }
-                else if (customerChangedCode == 2)
+                else if (customerToChangeProgressCode == 2)
                 {
                     return BadRequest("Your information is already being used");
                 }
