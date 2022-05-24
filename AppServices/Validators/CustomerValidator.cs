@@ -1,8 +1,6 @@
 ﻿using Alan_WarrenDesafio1.Models;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Alan_WarrenDesafio1.Validators
 {
@@ -25,7 +23,7 @@ namespace Alan_WarrenDesafio1.Validators
                .WithMessage("Email length must be more than 9 digits")
                .MaximumLength(256)
                .WithMessage("Email length must cannot have more than 256 digits")
-               .EmailAddress()
+               .Must(y => y.IsValidEmail())
                .WithMessage("Email is invalid, please try again");
 
             RuleFor(x => x.EmailConfirmation)
@@ -35,7 +33,7 @@ namespace Alan_WarrenDesafio1.Validators
                 .WithMessage("Email Confirmation length must be more than 9 digits")
                 .MaximumLength(256)
                 .WithMessage("Email Confirmation length must cannot have more than 256 digits")
-                .EmailAddress()
+                .Must(y => y.IsValidEmail())
                 .WithMessage("Email Confirmation is invalid, please try again");
 
             RuleFor(x => x)
@@ -64,7 +62,7 @@ namespace Alan_WarrenDesafio1.Validators
                 .Must(y => CheckCustomerIsHigherThanEighteenYearsOld(y))
                 .WithMessage("The customer cannot be under 18 years of age");
 
-            RuleFor(c => c.Country)
+            RuleFor(x => x.Country)
                .NotEmpty()
                .WithMessage("Country must not be null or empty")
                .MaximumLength(58)
@@ -81,7 +79,7 @@ namespace Alan_WarrenDesafio1.Validators
               .WithMessage("Postal Code must not be null or empty")
               .Length(9)
               .WithMessage("Postal Code length must have 8 digits (warning: don't forget the pontuation, ex: 00000-00)")
-              .Must(x => x.IsValidCEP())
+              .Must(y => y.IsValidCEP())
               .WithMessage("Postal Code is invalid (warning: don't forget the pontuation, ex: 00000-00)");
 
             RuleFor(x => x.Adress)
@@ -92,12 +90,11 @@ namespace Alan_WarrenDesafio1.Validators
               .NotEmpty()
               .WithMessage("Number must not be null or empty");
         }
-        
-        public static bool CheckCustomerIsHigherThanEighteenYearsOld(DateTime birthdate)
+
+        private static bool CheckCustomerIsHigherThanEighteenYearsOld(DateTime birthdate)
         {
             var x = new DateTime(DateTime.Now.Year, birthdate.Month, birthdate.Day);
-            var diff = x.Year - birthdate.Year;
-            return diff >= 18;
+            return x.Year - birthdate.Year >= 18;
         }
     }
 }

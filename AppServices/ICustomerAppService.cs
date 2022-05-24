@@ -6,13 +6,13 @@ namespace AppServices
 {
     public interface ICustomerAppService
     {
-        public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null);
+        IList<CustomerDto> GetAll(Func<Customer, bool> predicate = null);
 
-        public Customer GetBy(Func<Customer, bool> predicate);
+        CustomerDto GetBy(Func<Customer, bool> predicate);
 
-        public bool Create(Customer newCustomer);
+        public int Create(CustomerDto newCustomerDto);
 
-        public int Update(int id, Customer newCustomer);
+        public int Update(int id, CustomerDto customerToUpdateDto);
 
         public bool Delete(int id);
     }

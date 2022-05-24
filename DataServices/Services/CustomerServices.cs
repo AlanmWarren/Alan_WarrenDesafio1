@@ -9,12 +9,9 @@ namespace Alan_WarrenDesafio1.Data
     {
         private IList<Customer> Customers { get; set; } = new List<Customer>();
 
-        public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
+        public IList<Customer> GetAll(Func<Customer, bool> predicate = null)
         {
-            if (predicate is null)
-            {
-                return Customers;
-            }
+            if (predicate is null) return Customers;
 
             var customer = Customers.Where(predicate).ToList();
 
@@ -30,15 +27,15 @@ namespace Alan_WarrenDesafio1.Data
             return customer;
         }
 
-        public bool Create(Customer newCustomer)
+        public int Create(Customer newCustomer)
         {
-            if (CustomerExists(newCustomer, Customers)) return false;
+            if (CustomerExists(newCustomer, Customers)) return 0;
 
             int autoIncrementId = Customers.LastOrDefault()?.Id ?? default;
 
             newCustomer.Id = autoIncrementId + 1;
             Customers.Add(newCustomer);
-            return true;
+            return newCustomer.Id;
         }
 
         public int Update(int id, Customer newCustomer)
@@ -46,7 +43,7 @@ namespace Alan_WarrenDesafio1.Data
             var customerToUpdate = GetBy(x => x.Id == id);
             if (customerToUpdate is null) return 1;
 
-            if (CustomerExists(newCustomer, Customers)) return 2;
+            if (CustomerExists(newCustomer, Customers)) return -1;
 
             customerToUpdate.FullName = newCustomer.FullName;
             customerToUpdate.Email = newCustomer.Email;

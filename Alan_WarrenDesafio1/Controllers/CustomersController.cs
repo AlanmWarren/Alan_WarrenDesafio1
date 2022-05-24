@@ -1,6 +1,8 @@
-﻿using Alan_WarrenDesafio1.Models;
-using AppServices;
+﻿using AppServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace Alan_WarrenDesafio1.Controllers
 {
@@ -9,6 +11,7 @@ namespace Alan_WarrenDesafio1.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerAppService _customersAppService;
+
         public CustomersController(ICustomerAppService customerAppService)
         {
             _customersAppService = customerAppService;
@@ -20,7 +23,6 @@ namespace Alan_WarrenDesafio1.Controllers
             return SafeAction(() =>
             {
                 var customers = _customersAppService.GetAll();
-
                 return !customers.Any()
                     ? NotFound()
                     : Ok(customers);
@@ -33,8 +35,8 @@ namespace Alan_WarrenDesafio1.Controllers
             return SafeAction(() =>
             {
                 return _customersAppService.GetBy(c => c.Id == id) is null
-                ? NotFound()
-                : Ok(_customersAppService.GetBy(c => c.Id == id));
+                    ? NotFound()
+                    : Ok(_customersAppService.GetBy(c => c.Id == id));
             });
         }
 
@@ -43,9 +45,9 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.FullName == fullName) is null
+                return _customersAppService.GetAll(c => c.FullName.Contains(fullName)) is null
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.FullName == fullName));
+                    : Ok(_customersAppService.GetAll(c => c.FullName.Contains(fullName)));
             });
         }
 
@@ -72,35 +74,34 @@ namespace Alan_WarrenDesafio1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Customer newCustomer)
+        public IActionResult Post(CustomerDto newCustomerDto)
         {
             return SafeAction(() =>
             {
-                return _customersAppService.Create(newCustomer)
-                    ? Created("~api/customer", $"ID: {newCustomer.Id} Created")
-                    : BadRequest("Customer already exists, please insert a new customer");
+                var newCustomer = _customersAppService.Create(newCustomerDto);
+
+                return newCustomer is 0
+                    ? BadRequest("Customer already exists, please insert a new customer")
+                    : Created("~api/customer", $"New customer created with ID: {newCustomer}");
             });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Customer preCustomer)
+        public IActionResult Put(int id, CustomerDto preCustomerDto)
         {
             return SafeAction(() =>
             {
-                var customerToChangeProgressCode = _customersAppService.Update(id, preCustomer);
+                var customerToUpdateProgressCode = _customersAppService.Update(id, preCustomerDto);
 
-                if (customerToChangeProgressCode == 1)
-                {
+                if (customerToUpdateProgressCode == 1)
                     return NotFound();
-                }
-                else if (customerToChangeProgressCode == 2)
-                {
+
+                else if (customerToUpdateProgressCode == -1)
                     return BadRequest("Your information is already being used");
-                }
+
                 else
-                {
-                    return Ok($"Customer with ID : {id} changed successfully");
-                }
+                    return Ok($"Customer with ID: {id} updated successfully");
+
             });
         }
 
@@ -131,5 +132,4 @@ namespace Alan_WarrenDesafio1.Controllers
             }
         }
     }
-
 }
