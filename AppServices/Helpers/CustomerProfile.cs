@@ -1,4 +1,5 @@
 ﻿using Alan_WarrenDesafio1.Models;
+using Application.DTOs;
 using AutoMapper;
 
 namespace AppServices
@@ -7,8 +8,11 @@ namespace AppServices
     {
         public CustomerProfile()
         {
-            CreateMap<Customer, CustomerDto>()
-                .ReverseMap();
+            CreateMap<Customer, ReadCustomerDto>();
+
+            CreateMap<CreateCustomerDto, Customer>();
+
+            CreateMap<UpdateCustomerDto, Customer>();
         }
     }
 }

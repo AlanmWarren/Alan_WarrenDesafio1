@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICustomerServices, CustomerServices>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(c => c.AddProfile<CustomerProfile>(), typeof(Program));
 
 var app = builder.Build();
 

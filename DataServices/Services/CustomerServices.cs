@@ -13,11 +13,11 @@ namespace Alan_WarrenDesafio1.Data
         {
             if (predicate is null) return Customers;
 
-            var customer = Customers.Where(predicate).ToList();
+            var customers = Customers.Where(predicate).ToList();
 
-            return customer.Count is 0
+            return customers.Count is 0
                 ? null
-                : customer;
+                : customers;
         }
 
         public Customer GetBy(Func<Customer, bool> predicate)

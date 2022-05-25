@@ -1,4 +1,6 @@
-﻿using AppServices;
+﻿using Application.DTOs;
+using AppServices;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -74,7 +76,7 @@ namespace Alan_WarrenDesafio1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CustomerDto newCustomerDto)
+        public IActionResult Post(CreateCustomerDto newCustomerDto)
         {
             return SafeAction(() =>
             {
@@ -87,7 +89,7 @@ namespace Alan_WarrenDesafio1.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, CustomerDto preCustomerDto)
+        public IActionResult Put(int id, UpdateCustomerDto preCustomerDto)
         {
             return SafeAction(() =>
             {

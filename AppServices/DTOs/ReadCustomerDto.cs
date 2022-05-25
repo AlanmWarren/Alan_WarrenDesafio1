@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AppServices
+namespace Application.DTOs
 {
-    public class CustomerDto
+    public class ReadCustomerDto
     {
         public int Id { get; set; }
         public string FullName { get; set; }
