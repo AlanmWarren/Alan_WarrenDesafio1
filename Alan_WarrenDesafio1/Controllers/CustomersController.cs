@@ -80,11 +80,11 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var newCustomer = _customersAppService.Create(newCustomerDto);
+                var customerId = _customersAppService.Create(newCustomerDto);
 
                 return newCustomer is 0
                     ? BadRequest("Customer already exists, please insert a new customer")
-                    : Created("~api/customer", $"New customer created with ID: {newCustomer}");
+                    : Created("~api/customer", $"New customer created with Id: {customerId}");
             });
         }
 
