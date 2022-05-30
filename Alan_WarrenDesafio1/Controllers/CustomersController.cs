@@ -42,18 +42,18 @@ namespace Alan_WarrenDesafio1.Controllers
             });
         }
 
-        [HttpGet("byFullName")]
+        [HttpGet("full-name")]
         public IActionResult GetByFullName(string fullName)
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.FullName.Contains(fullName)) is null
+                return !_customersAppService.GetAll(c => c.FullName.Contains(fullName)).Any()
                     ? NotFound()
                     : Ok(_customersAppService.GetAll(c => c.FullName.Contains(fullName)));
             });
         }
 
-        [HttpGet("byEmail")]
+        [HttpGet("email")]
         public IActionResult GetByEmail(string email)
         {
             return SafeAction(() =>
@@ -64,7 +64,7 @@ namespace Alan_WarrenDesafio1.Controllers
             });
         }
 
-        [HttpGet("byCpf")]
+        [HttpGet("cpf")]
         public IActionResult GetByCpf(string cpf)
         {
             return SafeAction(() =>
@@ -76,20 +76,20 @@ namespace Alan_WarrenDesafio1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateCustomerDto newCustomerDto)
+        public IActionResult Post(CreateCustomerRequest newCustomerDto)
         {
             return SafeAction(() =>
             {
                 var customerId = _customersAppService.Create(newCustomerDto);
 
-                return newCustomer is 0
+                return customerId is 0
                     ? BadRequest("Customer already exists, please insert a new customer")
                     : Created("~api/customer", $"New customer created with Id: {customerId}");
             });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UpdateCustomerDto preCustomerDto)
+        public IActionResult Put(int id, UpdateCustomerRequest preCustomerDto)
         {
             return SafeAction(() =>
             {

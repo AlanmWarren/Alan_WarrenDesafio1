@@ -1,5 +1,5 @@
-﻿using Alan_WarrenDesafio1.Data;
-using Alan_WarrenDesafio1.Models;
+﻿using Alan_WarrenDesafio1.DomainServices;
+using Alan_WarrenDesafio1.DomainModels;
 using Application.DTOs;
 using AutoMapper;
 using System;
@@ -9,37 +9,34 @@ namespace AppServices
 {
     public class CustomerAppService : ICustomerAppService
     {
-        private readonly ICustomerServices _customerServices;
+        private readonly ICustomerService _customerServices;
         private readonly IMapper _mapper;
 
-        public CustomerAppService(ICustomerServices customerServices, IMapper mapper)
+        public CustomerAppService(ICustomerService customerServices, IMapper mapper)
         {
             _customerServices = customerServices;
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<ReadCustomerDto> GetAll(Func<Customer, bool> predicate = null)
+        public IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null)
         {
             var customers = _customerServices.GetAll(predicate);
-
-            return customers is not null
-                ? _mapper.Map<IEnumerable<ReadCustomerDto>>(customers)
-                : null;
+            return _mapper.Map<IEnumerable<CustomerResult>>(customers);
         }
 
-        public ReadCustomerDto GetBy(Func<Customer, bool> predicate)
+        public CustomerResult GetBy(Func<Customer, bool> predicate)
         {
             var customer = _customerServices.GetBy(predicate);
-            return _mapper.Map<ReadCustomerDto>(customer);
+            return _mapper.Map<CustomerResult>(customer);
         }
 
-        public int Create(CreateCustomerDto newCustomerDto)
+        public int Create(CreateCustomerRequest newCustomerDto)
         {
             var newCustomer = _mapper.Map<Customer>(newCustomerDto);
             return _customerServices.Create(newCustomer);
         }
 
-        public int Update(int id, UpdateCustomerDto customerToUpdateDto)
+        public int Update(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             var customerToUpdate = _mapper.Map<Customer>(customerToUpdateDto);
             return _customerServices.Update(id, customerToUpdate);
@@ -51,4 +48,3 @@ namespace AppServices
         }
     }
 }
-

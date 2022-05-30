@@ -1,4 +1,4 @@
-﻿using Alan_WarrenDesafio1.Models;
+﻿using Alan_WarrenDesafio1.DomainModels;
 using Application.DTOs;
 using System;
 using System.Collections.Generic;
@@ -7,15 +7,14 @@ namespace AppServices
 {
     public interface ICustomerAppService
     {
-        IEnumerable<ReadCustomerDto> GetAll(Func<Customer, bool> predicate = null);
+        IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null);
 
-        ReadCustomerDto GetBy(Func<Customer, bool> predicate);
+        CustomerResult GetBy(Func<Customer, bool> predicate);
 
-        public int Create(CreateCustomerDto newCustomerDto);
+        public int Create(CreateCustomerRequest newCustomerDto);
 
-        public int Update(int id, UpdateCustomerDto customerToUpdateDto);
+        public int Update(int id, UpdateCustomerRequest customerToUpdateDto);
 
         public bool Delete(int id);
     }
 }
-

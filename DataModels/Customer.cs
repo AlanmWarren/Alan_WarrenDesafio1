@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Alan_WarrenDesafio1.Models
+namespace Alan_WarrenDesafio1.DomainModels
 {
     public class Customer
     {
         public Customer(
-            int id,
             string fullName,
             string email,
             string emailConfirmation,
@@ -20,7 +19,6 @@ namespace Alan_WarrenDesafio1.Models
             string adress,
             int number)
         {
-            Id = id;
             FullName = fullName;
             Email = email;
             EmailConfirmation = emailConfirmation;
