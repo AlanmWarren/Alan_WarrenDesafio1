@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Alan_WarrenDesafio1.DomainModels
+namespace Domain.Models
 {
     public class Customer
     {
@@ -17,7 +17,8 @@ namespace Alan_WarrenDesafio1.DomainModels
             string city,
             string postalCode,
             string adress,
-            int number)
+            int number
+            )
         {
             FullName = fullName;
             Email = email;

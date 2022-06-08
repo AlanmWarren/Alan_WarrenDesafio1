@@ -1,9 +1,10 @@
-﻿using Alan_WarrenDesafio1.DomainModels;
-using Application.DTOs;
+﻿using Application.Models.DTOs.Requests;
+using Application.Models.DTOs.Response;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices
+namespace Application.Validators
 {
     public interface ICustomerAppService
     {
@@ -13,7 +14,7 @@ namespace AppServices
 
         public int Create(CreateCustomerRequest newCustomerDto);
 
-        public int Update(int id, UpdateCustomerRequest customerToUpdateDto);
+        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
 
         public bool Delete(int id);
     }

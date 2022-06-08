@@ -1,11 +1,12 @@
-﻿using Alan_WarrenDesafio1.DomainServices;
-using Alan_WarrenDesafio1.DomainModels;
-using Application.DTOs;
+﻿using Application.Models.DTOs.Requests;
+using Application.Models.DTOs.Response;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using Domain.Models;
+using Domain.Services;
 
-namespace AppServices
+namespace Application.Validators
 {
     public class CustomerAppService : ICustomerAppService
     {
@@ -14,7 +15,7 @@ namespace AppServices
 
         public CustomerAppService(ICustomerService customerServices, IMapper mapper)
         {
-            _customerServices = customerServices;
+            _customerServices = customerServices ?? throw new ArgumentNullException(nameof(customerServices));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -36,7 +37,7 @@ namespace AppServices
             return _customerServices.Create(newCustomer);
         }
 
-        public int Update(int id, UpdateCustomerRequest customerToUpdateDto)
+        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             var customerToUpdate = _mapper.Map<Customer>(customerToUpdateDto);
             return _customerServices.Update(id, customerToUpdate);

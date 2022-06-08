@@ -1,8 +1,8 @@
-﻿using Alan_WarrenDesafio1.DomainModels;
+﻿using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Alan_WarrenDesafio1.DomainServices
+namespace Domain.Services
 {
     public interface ICustomerService
     {
@@ -12,7 +12,7 @@ namespace Alan_WarrenDesafio1.DomainServices
 
         public int Create(Customer newCustomer);
 
-        public int Update(int id, Customer newCustomer);
+        public (bool Status, string MessageResult) Update(int id, Customer newCustomer);
 
         public bool Delete(int id);
     }

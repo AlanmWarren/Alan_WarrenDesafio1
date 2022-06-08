@@ -1,31 +1,45 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace Alan_WarrenDesafio1.Validators
+namespace Application.Validators
 {
     public static class StringExtensions
     {
-        public static bool IsValidCPF(this string document)
+        public static int ToIntAt(this string value, Index index)
         {
-            var expression = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}";
-            return Regex.Match(document, expression).Success;
+            var indexValue = index.IsFromEnd
+                ? value.Length - index.Value
+                : index.Value;
+
+            return (int)char.GetNumericValue(value, indexValue);
         }
 
-        public static bool IsValidCEP(this string cep)
+        public static bool IsValidNumber(this string number)
         {
-            var expression = "[0-9]{5}\\-?[0-9]{3}";
-            return Regex.Match(cep, expression).Success;
+            return number.All(x => char.IsDigit(x));
         }
 
-        public static bool IsValidCellphone(this string cellphone)
+        public static bool IsValidLetter(this string letter)
         {
-            var expression = "[0-9]{2}?[0-9]{4}?[0-9]{4}";
-            return Regex.Match(cellphone, expression).Success;
-        }
+            string compareLetter = letter;
+            letter = letter.Trim();
 
-        public static bool IsValidEmail(this string email)
-        {
-            var expression = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
-            return Regex.Match(email, expression).Success;
-        }
+            if (compareLetter != letter) return false;
+
+            string[] subs = letter.Split(' ');
+
+            for (int i = 0; i < subs.Length; i++)
+            {
+                if (subs[i] == "") return false;
+
+                if (subs.Length > 1)
+                {
+                    letter = subs[i];
+                }
+            }
+
+            return letter.All(x => char.IsLetter(x));
+        }        
     }
 }

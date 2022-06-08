@@ -1,6 +1,5 @@
-﻿using Application.DTOs;
-using AppServices;
-using AutoMapper;
+﻿using Application.Models.DTOs.Requests;
+using Application.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -82,28 +81,22 @@ namespace Alan_WarrenDesafio1.Controllers
             {
                 var customerId = _customersAppService.Create(newCustomerDto);
 
-                return customerId is 0
+                return customerId is -1
                     ? BadRequest("Customer already exists, please insert a new customer")
                     : Created("~api/customer", $"New customer created with Id: {customerId}");
             });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UpdateCustomerRequest preCustomerDto)
+        public IActionResult Put(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             return SafeAction(() =>
             {
-                var customerToUpdateProgressCode = _customersAppService.Update(id, preCustomerDto);
+                var customerToUpdate = _customersAppService.Update(id, customerToUpdateDto);
 
-                if (customerToUpdateProgressCode == 1)
-                    return NotFound();
-
-                else if (customerToUpdateProgressCode == -1)
-                    return BadRequest("Your information is already being used");
-
-                else
-                    return Ok($"Customer with ID: {id} updated successfully");
-
+                return !customerToUpdate.Status
+                    ? BadRequest(customerToUpdate.MessageResult)
+                    : Ok(customerToUpdate.MessageResult);
             });
         }
 

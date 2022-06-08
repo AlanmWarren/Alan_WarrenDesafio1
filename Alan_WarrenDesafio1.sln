@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alan_WarrenDesafio1", "Alan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{38988A20-372D-4CC5-97E5-1B5C01715108}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModels", "DataModels\DomainModels.csproj", "{1A40B26E-EE84-4BC1-92A5-F8AAAE00AD2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Models", "DataModels\Domain.Models.csproj", "{1A40B26E-EE84-4BC1-92A5-F8AAAE00AD2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainServices", "DataServices\DomainServices.csproj", "{9AF89D6A-3D9A-47BB-B0B2-0C8684C60015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Services", "DataServices\Domain.Services.csproj", "{9AF89D6A-3D9A-47BB-B0B2-0C8684C60015}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "AppServices\Application.csproj", "{20E9AE8D-4ECA-44AF-BB90-28CD5F7E2B43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Models", "Application.Models\Application.Models.csproj", "{2571F633-E1F1-484D-9C9F-D8194B97DEBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{20E9AE8D-4ECA-44AF-BB90-28CD5F7E2B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20E9AE8D-4ECA-44AF-BB90-28CD5F7E2B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20E9AE8D-4ECA-44AF-BB90-28CD5F7E2B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2571F633-E1F1-484D-9C9F-D8194B97DEBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2571F633-E1F1-484D-9C9F-D8194B97DEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2571F633-E1F1-484D-9C9F-D8194B97DEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2571F633-E1F1-484D-9C9F-D8194B97DEBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

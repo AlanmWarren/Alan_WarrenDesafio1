@@ -1,8 +1,9 @@
-﻿using Alan_WarrenDesafio1.DomainModels;
-using Application.DTOs;
+﻿using Application.Models.DTOs.Requests;
+using Application.Models.DTOs.Response;
 using AutoMapper;
+using Domain.Models;
 
-namespace AppServices
+namespace Application.Profiles
 {
     public class CustomerProfile : Profile
     {

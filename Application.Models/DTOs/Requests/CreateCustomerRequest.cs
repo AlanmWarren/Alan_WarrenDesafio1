@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Application.DTOs
+namespace Application.Models.DTOs.Requests
 {
-    public class UpdateCustomerRequest
+    public class CreateCustomerRequest
     {
         public string FullName { get; set; }
         public string Email { get; set; }
