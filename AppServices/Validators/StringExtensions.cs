@@ -28,14 +28,14 @@ namespace Application.Validators
             if (compareLetter != letter) return false;
 
             string[] subs = letter.Split(' ');
-
+            letter = "";
             for (int i = 0; i < subs.Length; i++)
             {
                 if (subs[i] == "") return false;
 
                 if (subs.Length > 1)
                 {
-                    letter = subs[i];
+                    letter += subs[i];
                 }
             }
 
