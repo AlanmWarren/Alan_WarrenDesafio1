@@ -1,6 +1,7 @@
-﻿using Application.Models.DTOs.Requests;
+﻿using Application.Models.Requests;
 using FluentValidation;
 using FluentValidation.Validators;
+using Infrastructure.Extensions;
 using System;
 using System.Linq;
 
@@ -24,8 +25,6 @@ namespace Application.Validators
                 .EmailAddress(EmailValidationMode.Net4xRegex);
 
             RuleFor(x => x)
-                .Must(x => x.Email == x.EmailConfirmation)
-                .WithMessage("'Email' and 'EmailConfirmation' should be equals")
                 .Must(x => x.EmailSms && !x.Whatsapp || !x.EmailSms && x.Whatsapp || x.EmailSms && x.Whatsapp)
                 .WithMessage("At least one or both 'EmailSms' or/and 'Whatsapp' must be true");
 
@@ -99,8 +98,7 @@ namespace Application.Validators
 
         private static bool IsValidCPF(string cpf)
         {
-            cpf = cpf.Replace(".", string.Empty);
-            cpf = cpf.Replace("-", string.Empty);
+            cpf = cpf.Replace(".", string.Empty).Replace(".", string.Empty);
 
             if (cpf.Any(x => !char.IsDigit(x))) return false;
 

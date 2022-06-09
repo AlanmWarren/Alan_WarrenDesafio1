@@ -1,6 +1,7 @@
-﻿using Application.Models.DTOs.Requests;
+﻿using Application.Models.Requests;
 using FluentValidation;
 using FluentValidation.Validators;
+using Infrastructure.Extensions;
 using System;
 using System.Linq;
 
@@ -14,7 +15,6 @@ namespace Application.Validators
                 .NotEmpty()
                 .MinimumLength(2)
                 .MaximumLength(300)
-                .Must(x => x.IsValidLetter())
                 .Must(IsAFullName);
 
             RuleFor(x => x.Email)
@@ -99,8 +99,7 @@ namespace Application.Validators
 
         private static bool IsValidCPF(string cpf)
         {
-            cpf = cpf.Replace(".", string.Empty);
-            cpf = cpf.Replace("-", string.Empty);
+            cpf = cpf.Replace(".", string.Empty).Replace(".", string.Empty);
 
             if (cpf.Any(x => !char.IsDigit(x))) return false;
 
@@ -126,8 +125,9 @@ namespace Application.Validators
         }
         private static bool IsAFullName(string fullName)
         {
-            string[] nameAndLastName = fullName.Split(' ');
+            if (!fullName.IsValidLetter()) return false;
 
+            string[] nameAndLastName = fullName.Split(' ');
             return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
         }
     }

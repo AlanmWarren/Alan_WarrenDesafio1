@@ -1,5 +1,5 @@
-﻿using Application.Models.DTOs.Requests;
-using Application.Models.DTOs.Response;
+﻿using Application.Models.Requests;
+using Application.Models.Response;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,8 @@ namespace Application.Validators
         public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             var customerToUpdate = _mapper.Map<Customer>(customerToUpdateDto);
-            return _customerServices.Update(id, customerToUpdate);
+            customerToUpdate.Id = id;
+            return _customerServices.Update(customerToUpdate);
         }
 
         public bool Delete(int id)

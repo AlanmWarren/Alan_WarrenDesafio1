@@ -1,5 +1,5 @@
-﻿using Application.Models.DTOs.Requests;
-using Application.Models.DTOs.Response;
+﻿using Application.Models.Requests;
+using Application.Models.Response;
 using Domain.Models;
 using System;
 using System.Collections.Generic;

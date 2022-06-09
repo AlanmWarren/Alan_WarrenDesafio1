@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Models.DTOs.Response
+namespace Application.Models.Response
 {
     public class CustomerResult
     {

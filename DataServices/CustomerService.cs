@@ -9,11 +9,11 @@ namespace Domain.Services
     {
         private readonly List<Customer> _customers = new();
 
-        public IList<Customer> GetAll(Func<Customer, bool> predicate = null)
+        public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
         {
             if (predicate is null) return _customers;
 
-            var customers = _customers.Where(predicate).ToList();
+            var customers = _customers.Where(predicate);
 
             return customers;
         }
@@ -36,30 +36,22 @@ namespace Domain.Services
             return newCustomer.Id;
         }
 
-        public (bool Status, string MessageResult) Update(int id, Customer newCustomer)
+        public (bool Status, string MessageResult) Update(Customer customer)
         {
-            var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == id);
+            var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
 
-            if (indexOfCustomerToUpdate == -1) return (false, "Customer invalid");
+            (bool isEmailOrAndCpfExists, string Message) = IsEmailOrAndCpfExists(_customers[indexOfCustomerToUpdate], customer);
+            if (isEmailOrAndCpfExists) return (false, Message);
 
-            if (newCustomer.Email != _customers[indexOfCustomerToUpdate].Email && newCustomer.Cpf != _customers[indexOfCustomerToUpdate].Cpf)
-                if (AnyCustomerForEmail(newCustomer)) return (false, "'Email' and 'Cpf' already exists, please insert a new 'Email' and 'Cpf'");
+            _customers[indexOfCustomerToUpdate] = customer;
 
-            if (newCustomer.Email != _customers[indexOfCustomerToUpdate].Email)
-                if (AnyCustomerForEmail(newCustomer)) return (false, "'Email' already exists, please insert a new 'Email'");
-
-            if (newCustomer.Cpf != _customers[indexOfCustomerToUpdate].Cpf)
-                if (AnyCustomerForCpf(newCustomer)) return (false, "'Cpf' already exists, please insert a new 'Cpf'");
-
-            newCustomer.Id = id;
-            _customers[indexOfCustomerToUpdate] = newCustomer;
-
-            return (true, $"Customer with ID: {id} updated successfully");
+            return (true, $"Customer for ID: {customer.Id} updated successfully");
         }
 
         public bool Delete(int id)
         {
             var customerToDelete = GetBy(x => x.Id == id);
+            if (customerToDelete is null) return false;
 
             return _customers.Remove(customerToDelete);
         }
@@ -67,5 +59,22 @@ namespace Domain.Services
         private bool AnyCustomerForEmail(Customer newCustomer) => _customers.Any(x => x.Email == newCustomer.Email);
 
         private bool AnyCustomerForCpf(Customer newCustomer) => _customers.Any(x => x.Cpf == newCustomer.Cpf);
+
+        private (bool IsExists, string Message) IsEmailOrAndCpfExists(Customer oldCustomer, Customer newCustomer)
+        {
+            if (newCustomer.Email != oldCustomer.Email && newCustomer.Cpf != oldCustomer.Cpf)
+                if (AnyCustomerForEmail(newCustomer) && AnyCustomerForCpf(newCustomer))
+                    return (true, "'Email' and 'Cpf' already exists, please insert a new 'Email' and 'Cpf'");
+
+            if (newCustomer.Email != oldCustomer.Email)
+                if (AnyCustomerForEmail(newCustomer))
+                    return (true, "'Email' already exists, please insert a new 'Email'");
+
+            if (newCustomer.Cpf != oldCustomer.Cpf)
+                if (AnyCustomerForCpf(newCustomer))
+                    return (true, "'Cpf' already exists, please insert a new 'Cpf'");
+
+            return (false, "");
+        }
     }
 }

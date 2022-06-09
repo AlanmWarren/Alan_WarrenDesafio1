@@ -1,4 +1,4 @@
-﻿using Application.Models.DTOs.Requests;
+﻿using Application.Models.Requests;
 using Application.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

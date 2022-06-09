@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Extensions;
+using System;
 
 namespace Domain.Models
 {
@@ -7,7 +8,6 @@ namespace Domain.Models
         public Customer(
             string fullName,
             string email,
-            string emailConfirmation,
             string cpf,
             string cellphone,
             DateTime birthdate,
@@ -18,12 +18,11 @@ namespace Domain.Models
             string postalCode,
             string adress,
             int number
-            )
+        )
         {
             FullName = fullName;
             Email = email;
-            EmailConfirmation = emailConfirmation;
-            Cpf = cpf;
+            Cpf = cpf.FormatCpf();
             Cellphone = cellphone;
             Birthdate = birthdate;
             EmailSms = emailSms;

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace Application.Validators
+namespace Infrastructure.Extensions
 {
     public static class StringExtensions
     {
@@ -40,6 +39,12 @@ namespace Application.Validators
             }
 
             return letter.All(x => char.IsLetter(x));
-        }        
+        }
+
+        public static string FormatCpf(this string cpf)
+        {
+            var cpfFormated = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
+            return cpfFormated;
+        }
     }
 }

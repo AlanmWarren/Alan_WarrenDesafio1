@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Application.Models.DTOs.Requests
+namespace Application.Models.Requests
 {
     public class UpdateCustomerRequest
     {
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string EmailConfirmation { get; set; }
         public string Cpf { get; set; }
         public string Cellphone { get; set; }
         public DateTime Birthdate { get; set; }
