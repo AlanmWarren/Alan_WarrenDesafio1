@@ -63,7 +63,6 @@ namespace Domain.Services
 
         private (bool IsExists, string Message) IsEmailOrAndCpfExists(Customer oldCustomer, Customer newCustomer)
         {
-
             if (newCustomer.Email != oldCustomer.Email)
             {
                 if (AnyCustomerForEmail(newCustomer)) return (true, "'Email' already exists, please insert a new 'Email'");
