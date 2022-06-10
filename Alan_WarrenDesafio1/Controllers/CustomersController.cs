@@ -1,6 +1,9 @@
-﻿using Alan_WarrenDesafio1.Models;
-using AppServices;
+﻿using Application.Models.Requests;
+using Application.Validators;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace Alan_WarrenDesafio1.Controllers
 {
@@ -9,6 +12,7 @@ namespace Alan_WarrenDesafio1.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerAppService _customersAppService;
+
         public CustomersController(ICustomerAppService customerAppService)
         {
             _customersAppService = customerAppService;
@@ -20,7 +24,6 @@ namespace Alan_WarrenDesafio1.Controllers
             return SafeAction(() =>
             {
                 var customers = _customersAppService.GetAll();
-
                 return !customers.Any()
                     ? NotFound()
                     : Ok(customers);
@@ -33,23 +36,23 @@ namespace Alan_WarrenDesafio1.Controllers
             return SafeAction(() =>
             {
                 return _customersAppService.GetBy(c => c.Id == id) is null
-                ? NotFound()
-                : Ok(_customersAppService.GetBy(c => c.Id == id));
+                    ? NotFound()
+                    : Ok(_customersAppService.GetBy(c => c.Id == id));
             });
         }
 
-        [HttpGet("byFullName")]
+        [HttpGet("full-name")]
         public IActionResult GetByFullName(string fullName)
         {
             return SafeAction(() =>
             {
-                return _customersAppService.GetAll(c => c.FullName == fullName) is null
+                return !_customersAppService.GetAll(c => c.FullName.Contains(fullName)).Any()
                     ? NotFound()
-                    : Ok(_customersAppService.GetAll(c => c.FullName == fullName));
+                    : Ok(_customersAppService.GetAll(c => c.FullName.Contains(fullName)));
             });
         }
 
-        [HttpGet("byEmail")]
+        [HttpGet("email")]
         public IActionResult GetByEmail(string email)
         {
             return SafeAction(() =>
@@ -60,7 +63,7 @@ namespace Alan_WarrenDesafio1.Controllers
             });
         }
 
-        [HttpGet("byCpf")]
+        [HttpGet("cpf")]
         public IActionResult GetByCpf(string cpf)
         {
             return SafeAction(() =>
@@ -72,35 +75,28 @@ namespace Alan_WarrenDesafio1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Customer newCustomer)
+        public IActionResult Post(CreateCustomerRequest newCustomerDto)
         {
             return SafeAction(() =>
             {
-                return _customersAppService.Create(newCustomer)
-                    ? Created("~api/customer", $"ID: {newCustomer.Id} Created")
-                    : BadRequest("Customer already exists, please insert a new customer");
+                var customerId = _customersAppService.Create(newCustomerDto);
+
+                return customerId is -1
+                    ? BadRequest("Customer already exists, please insert a new customer")
+                    : Created("~api/customer", $"New customer created with Id: {customerId}");
             });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Customer preCustomer)
+        public IActionResult Put(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             return SafeAction(() =>
             {
-                var customerToChangeProgressCode = _customersAppService.Update(id, preCustomer);
+                var customerToUpdate = _customersAppService.Update(id, customerToUpdateDto);
 
-                if (customerToChangeProgressCode == 1)
-                {
-                    return NotFound();
-                }
-                else if (customerToChangeProgressCode == 2)
-                {
-                    return BadRequest("Your information is already being used");
-                }
-                else
-                {
-                    return Ok($"Customer with ID : {id} changed successfully");
-                }
+                return !customerToUpdate.Status
+                    ? BadRequest(customerToUpdate.MessageResult)
+                    : Ok(customerToUpdate.MessageResult);
             });
         }
 
@@ -131,5 +127,4 @@ namespace Alan_WarrenDesafio1.Controllers
             }
         }
     }
-
 }

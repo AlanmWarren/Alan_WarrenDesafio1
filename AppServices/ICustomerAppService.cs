@@ -1,20 +1,21 @@
-﻿using Alan_WarrenDesafio1.Models;
+﻿using Application.Models.Requests;
+using Application.Models.Response;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace AppServices
+namespace Application.Validators
 {
     public interface ICustomerAppService
     {
-        public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null);
+        IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null);
 
-        public Customer GetBy(Func<Customer, bool> predicate);
+        CustomerResult GetBy(Func<Customer, bool> predicate);
 
-        public bool Create(Customer newCustomer);
+        public int Create(CreateCustomerRequest newCustomerDto);
 
-        public int Update(int id, Customer newCustomer);
+        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
 
         public bool Delete(int id);
     }
 }
-

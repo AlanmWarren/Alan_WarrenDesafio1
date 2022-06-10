@@ -1,15 +1,19 @@
-﻿using Alan_WarrenDesafio1.Models;
+﻿using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Alan_WarrenDesafio1.Data
+namespace Domain.Services
 {
-    public interface ICustomerServices
+    public interface ICustomerService
     {
         IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null);
+
         Customer GetBy(Func<Customer, bool> predicate);
-        public bool Create(Customer newCustomer);
-        public int Update(int id, Customer newCustomer);
+
+        public int Create(Customer newCustomer);
+
+        public (bool Status, string MessageResult) Update(Customer newCustomer);
+
         public bool Delete(int id);
     }
 }

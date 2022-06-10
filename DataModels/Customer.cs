@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Infrastructure.Extensions;
+using System;
 
-namespace Alan_WarrenDesafio1.Models
+namespace Domain.Models
 {
     public class Customer
     {
         public Customer(
-            int id,
             string fullName,
             string email,
-            string emailConfirmation,
             string cpf,
             string cellphone,
             DateTime birthdate,
@@ -18,13 +17,12 @@ namespace Alan_WarrenDesafio1.Models
             string city,
             string postalCode,
             string adress,
-            int number)
+            int number
+        )
         {
-            Id = id;
             FullName = fullName;
             Email = email;
-            EmailConfirmation = emailConfirmation;
-            Cpf = cpf;
+            Cpf = cpf.FormatCpf();
             Cellphone = cellphone;
             Birthdate = birthdate;
             EmailSms = emailSms;
