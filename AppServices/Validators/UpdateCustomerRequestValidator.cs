@@ -98,7 +98,7 @@ namespace Application.Validators
 
         private static bool IsValidCPF(string cpf)
         {
-            cpf = cpf.Replace(".", string.Empty).Replace(".", string.Empty);
+            cpf = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
 
             if (cpf.Any(x => !char.IsDigit(x))) return false;
 
