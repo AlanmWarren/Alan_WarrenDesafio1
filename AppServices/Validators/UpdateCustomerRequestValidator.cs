@@ -15,8 +15,7 @@ namespace Application.Validators
                  .NotEmpty()
                  .MinimumLength(2)
                  .MaximumLength(300)
-                 .Must(x => x.IsValidLetter())
-                 .Must(IsAFullName);
+                 .Must(x => x.IsValidFullName());
 
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -121,12 +120,6 @@ namespace Application.Validators
             secondDigitAfterDash = secondDigitAfterDash == 10 ? 0 : secondDigitAfterDash;
 
             return firstDigitAfterDash == cpf.ToIntAt(^2) && secondDigitAfterDash == cpf.ToIntAt(^1);
-        }
-        private static bool IsAFullName(string fullName)
-        {
-            string[] nameAndLastName = fullName.Split(' ');
-
-            return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
         }
     }
 }

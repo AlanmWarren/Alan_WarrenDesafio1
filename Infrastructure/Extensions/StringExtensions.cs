@@ -46,5 +46,13 @@ namespace Infrastructure.Extensions
             var cpfFormated = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
             return cpfFormated;
         }
+
+        public static bool IsValidFullName(this string fullName)
+        {
+            if (!fullName.IsValidLetter()) return false;
+
+            string[] nameAndLastName = fullName.Split(' ');
+            return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
+        }
     }
 }
