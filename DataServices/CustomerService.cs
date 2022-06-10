@@ -39,6 +39,7 @@ namespace Domain.Services
         public (bool Status, string MessageResult) Update(Customer customer)
         {
             var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
+            if (indexOfCustomerToUpdate == -1) return (false, $"Customer not found for Id: {customer.Id}");
 
             (bool isEmailOrAndCpfExists, string Message) = IsEmailOrAndCpfExists(_customers[indexOfCustomerToUpdate], customer);
             if (isEmailOrAndCpfExists) return (false, Message);
