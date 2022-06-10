@@ -41,7 +41,7 @@ namespace Domain.Services
             var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
             if (indexOfCustomerToUpdate == -1) return (false, $"Customer not found for Id: {customer.Id}");
 
-            (bool isEmailOrAndCpfExists, string Message) = IsEmailOrAndCpfExists(_customers[indexOfCustomerToUpdate], customer);
+            (bool isEmailOrAndCpfExists, string Message) = ValidateEmailAndCpfAlreadyExists(_customers[indexOfCustomerToUpdate], customer);
             if (isEmailOrAndCpfExists) return (false, Message);
 
             _customers[indexOfCustomerToUpdate] = customer;
@@ -61,7 +61,7 @@ namespace Domain.Services
 
         private bool AnyCustomerForCpf(Customer newCustomer) => _customers.Any(x => x.Cpf == newCustomer.Cpf);
 
-        private (bool IsExists, string Message) IsEmailOrAndCpfExists(Customer oldCustomer, Customer newCustomer)
+        private (bool IsExists, string Message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
         {
             if (newCustomer.Email != oldCustomer.Email)
             {

@@ -92,11 +92,11 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var customerToUpdate = _customersAppService.Update(id, customerToUpdateDto);
+                var (status, messageResult) = _customersAppService.Update(id, customerToUpdateDto);
 
-                return !customerToUpdate.Status
-                    ? BadRequest(customerToUpdate.MessageResult)
-                    : Ok(customerToUpdate.MessageResult);
+                return !status
+                    ? BadRequest(messageResult)
+                    : Ok(messageResult);
             });
         }
 
