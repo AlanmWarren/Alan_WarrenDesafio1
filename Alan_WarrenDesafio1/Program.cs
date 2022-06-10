@@ -23,8 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
-builder.Services.AddAutoMapper((_, mapperConfiguration) =>
-mapperConfiguration.AddMaps(assemblies), assemblies);
+builder.Services.AddAutoMapper((_, mapperConfiguration) => mapperConfiguration.AddMaps(assemblies), assemblies);
 
 var app = builder.Build();
 
