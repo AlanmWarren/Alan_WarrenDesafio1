@@ -63,17 +63,16 @@ namespace Domain.Services
 
         private (bool IsExists, string Message) IsEmailOrAndCpfExists(Customer oldCustomer, Customer newCustomer)
         {
-            if (newCustomer.Email != oldCustomer.Email && newCustomer.Cpf != oldCustomer.Cpf)
-                if (AnyCustomerForEmail(newCustomer) && AnyCustomerForCpf(newCustomer))
-                    return (true, "'Email' and 'Cpf' already exists, please insert a new 'Email' and 'Cpf'");
 
             if (newCustomer.Email != oldCustomer.Email)
-                if (AnyCustomerForEmail(newCustomer))
-                    return (true, "'Email' already exists, please insert a new 'Email'");
+            {
+                if (AnyCustomerForEmail(newCustomer)) return (true, "'Email' already exists, please insert a new 'Email'");
+            }
 
             if (newCustomer.Cpf != oldCustomer.Cpf)
-                if (AnyCustomerForCpf(newCustomer))
-                    return (true, "'Cpf' already exists, please insert a new 'Cpf'");
+            {
+                if (AnyCustomerForCpf(newCustomer)) return (true, "'Cpf' already exists, please insert a new 'Cpf'");
+            }
 
             return (false, "");
         }
