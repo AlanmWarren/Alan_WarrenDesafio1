@@ -101,7 +101,9 @@ namespace Application.Validators
         {
             cpf = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
 
-            if (cpf.Any(x => !char.IsDigit(x))) return false;
+            if (!cpf.IsValidNumber()) return false;
+
+            if (cpf.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
 
             var firstDigitAfterDash = 0;
             for (int i = 0; i < cpf.Length - 2; i++)

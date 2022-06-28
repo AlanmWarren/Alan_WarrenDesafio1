@@ -21,24 +21,13 @@ namespace Infrastructure.Extensions
 
         public static bool IsValidLetter(this string letter)
         {
-            string compareLetter = letter;
-            letter = letter.Trim();
+            if (!AllCharacteresArentEqualsToTheFirstCharacter(letter)
+                || letter.Trim() != letter
+                || letter.Split(' ').Contains("")
+                || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))
+                || letter.Replace(" ", string.Empty).Any(x => !char.IsLetter(x))) return false;
 
-            if (compareLetter != letter) return false;
-
-            string[] subs = letter.Split(' ');
-            letter = "";
-            for (int i = 0; i < subs.Length; i++)
-            {
-                if (subs[i] == "") return false;
-
-                if (subs.Length > 1)
-                {
-                    letter += subs[i];
-                }
-            }
-
-            return letter.All(x => char.IsLetter(x));
+            return true;
         }
 
         public static string FormatCpf(this string cpf)
@@ -51,8 +40,15 @@ namespace Infrastructure.Extensions
         {
             if (!fullName.IsValidLetter()) return false;
 
+            if (fullName.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
+
             string[] nameAndLastName = fullName.Split(' ');
             return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
+        }
+
+        public static bool AllCharacteresArentEqualsToTheFirstCharacter(this string text)
+        {
+            return text.All(c => c.Equals(text.First()));
         }
     }
 }
