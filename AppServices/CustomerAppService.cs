@@ -22,21 +22,19 @@ namespace Application.Validators
         public IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null)
         {
             var customers = _customerServices.GetAll(predicate);
-            var result = _mapper.Map<IEnumerable<CustomerResult>>(customers);
-            return result;
+            return _mapper.Map<IEnumerable<CustomerResult>>(customers);
         }
 
         public CustomerResult GetBy(Func<Customer, bool> predicate)
         {
             var customer = _customerServices.GetBy(predicate);
-            var result = _mapper.Map<CustomerResult>(customer);
-            return result;
+            return _mapper.Map<CustomerResult>(customer);
         }
 
         public int Create(CreateCustomerRequest newCustomerDto)
         {
-            var customer = _mapper.Map<Customer>(newCustomerDto);
-            return _customerServices.Create(customer);
+            var newCustomer = _mapper.Map<Customer>(newCustomerDto);
+            return _customerServices.Create(newCustomer);
         }
 
         public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)

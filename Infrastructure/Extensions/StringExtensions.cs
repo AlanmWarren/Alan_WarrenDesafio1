@@ -21,46 +21,38 @@ namespace Infrastructure.Extensions
 
         public static bool IsValidLetter(this string letter)
         {
-            string[] letterArray = letter.Split(' ');
-            for (int i = 0; i < letterArray.Length; i++)
+            string compareLetter = letter;
+            letter = letter.Trim();
+
+            if (compareLetter != letter) return false;
+
+            string[] subs = letter.Split(' ');
+            letter = "";
+            for (int i = 0; i < subs.Length; i++)
             {
-                if (!char.IsUpper(letterArray[i].First()))
+                if (subs[i] == "") return false;
+
+                if (subs.Length > 1)
                 {
-                    return false;
+                    letter += subs[i];
                 }
             }
 
-            if (!AllCharacteresArentEqualsToTheFirstCharacter(letter)
-                || letter.Trim() != letter
-                || letter.Split(' ').Contains("")
-                || letter.Replace(" ", string.Empty).Any(x => !char.IsLetter(x))) return false;
-
-            if (!char.IsUpper(letter.First()))
-            {
-                return false;
-            }
-
-            return true;
+            return letter.All(x => char.IsLetter(x));
         }
 
-        public static bool IsValidFullName(this string fullName)
-        {
-            if (!fullName.IsValidLetter()) return false;
-
-            if (fullName.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
-
-            string[] nameAndLastName = fullName.Split(' ');
-            return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
-        }
         public static string FormatCpf(this string cpf)
         {
             var cpfFormated = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
             return cpfFormated;
         }
 
-        public static bool AllCharacteresArentEqualsToTheFirstCharacter(this string text)
+        public static bool IsValidFullName(this string fullName)
         {
-            return text.All(c => c.Equals(text.First()));
+            if (!fullName.IsValidLetter()) return false;
+
+            string[] nameAndLastName = fullName.Split(' ');
+            return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
         }
     }
 }
