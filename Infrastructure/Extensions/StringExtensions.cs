@@ -21,7 +21,7 @@ namespace Infrastructure.Extensions
 
         public static bool IsValidLetter(this string letter)
         {
-            if (!AllCharacteresArentEqualsToTheFirstCharacter(letter)
+            if (AllCharacteresArentEqualsToTheFirstCharacter(letter)
                 || letter.Trim() != letter
                 || letter.Split(' ').Contains("")
                 || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))
