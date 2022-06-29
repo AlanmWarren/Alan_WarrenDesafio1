@@ -48,12 +48,12 @@ namespace Application.Validators
             RuleFor(x => x.Country)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.City)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
@@ -64,7 +64,7 @@ namespace Application.Validators
                 .NotEmpty()
                 .MinimumLength(2)
                 .MaximumLength(100)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.Number)
                 .NotEmpty()

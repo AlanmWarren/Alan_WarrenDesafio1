@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,12 @@ namespace Domain.Services
 {
     public class CustomerService : ICustomerService
     {
+        //private readonly CustomerContext _context;
+
+        //public CustomerService(CustomerContext context)
+        //{
+        //    _context = context;
+        //}
         private readonly List<Customer> _customers = new();
 
         public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
@@ -36,7 +43,7 @@ namespace Domain.Services
             return newCustomer.Id;
         }
 
-        public (bool Status, string MessageResult) Update(Customer customer)
+        public (bool status, string messageResult) Update(Customer customer)
         {
             var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
             if (indexOfCustomerToUpdate == -1) return (false, $"Customer not found for Id: {customer.Id}");
@@ -61,7 +68,7 @@ namespace Domain.Services
 
         private bool AnyCustomerForCpf(Customer newCustomer) => _customers.Any(x => x.Cpf == newCustomer.Cpf);
 
-        private (bool IsExists, string Message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
+        private (bool isExists, string message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
         {
             if (newCustomer.Email != oldCustomer.Email)
             {
