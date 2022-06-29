@@ -40,8 +40,6 @@ namespace Infrastructure.Extensions
         {
             if (!fullName.IsValidLetter()) return false;
 
-            if (fullName.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
-
             string[] nameAndLastName = fullName.Split(' ');
             return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
         }
