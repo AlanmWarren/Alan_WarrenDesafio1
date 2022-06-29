@@ -48,23 +48,23 @@ namespace Application.Validators
             RuleFor(x => x.Country)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.City)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
                 .Length(8)
-                .Must(x => x.IsValidNumber());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.Adress)
                 .NotEmpty()
                 .MinimumLength(2)
                 .MaximumLength(100)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.Number)
                 .NotEmpty()
