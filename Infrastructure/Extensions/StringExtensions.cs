@@ -15,18 +15,19 @@ namespace Infrastructure.Extensions
         }
 
         public static bool IsValidNumber(this string number)
-            => number.All(x => char.IsDigit(x));
-
-        public static bool IsValidText(this string text)
         {
-            if (text.Trim() != text
-                || text.Split(' ').Contains("")
-                || text.Split(' ').Any(_ => !char.IsUpper(_.First()))) return false;
+            return number.All(x => char.IsDigit(x));
+        }
 
-            text = text.Replace(" ", string.Empty);
-            if (AllCharacteresArentEqualsToTheFirstCharacter(text)) return false;
+        public static bool IsValidLetter(this string letter)
+        {
+            if (AllCharacteresArentEqualsToTheFirstCharacter(letter)
+                || letter.Trim() != letter
+                || letter.Split(' ').Contains("")
+                || letter.Split(' ').Any(_ => !char.IsUpper(_.First()))
+                || letter.Replace(" ", string.Empty).Any(x => !char.IsLetter(x))) return false;
 
-            return text.All(x => char.IsLetter(x));
+            return true;
         }
 
         public static string FormatCpf(this string cpf)
@@ -37,13 +38,15 @@ namespace Infrastructure.Extensions
 
         public static bool IsValidFullName(this string fullName)
         {
-            if (!fullName.IsValidText()) return false;
+            if (!fullName.IsValidLetter()) return false;
 
             string[] nameAndLastName = fullName.Split(' ');
             return nameAndLastName.Length > 1 && nameAndLastName.Length <= 7;
         }
 
-        public static bool AllCharacteresArentEqualsToTheFirstCharacter(this string field)
-            => field.All(c => c.Equals(field.First()));
+        public static bool AllCharacteresArentEqualsToTheFirstCharacter(this string text)
+        {
+            return text.All(c => c.Equals(text.First()));
+        }
     }
 }
