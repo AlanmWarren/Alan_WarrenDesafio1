@@ -12,7 +12,7 @@ namespace Domain.Services
 
         public int Create(Customer newCustomer);
 
-        public (bool Status, string MessageResult) Update(Customer newCustomer);
+        public (bool status, string messageResult) Update(Customer newCustomer);
 
         public bool Delete(int id);
     }
