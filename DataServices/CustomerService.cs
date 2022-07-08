@@ -45,8 +45,8 @@ namespace Domain.Services
             var customerFound = GetBy(x => x.Id == customer.Id);
             if (customerFound is null) return (false, $"Customer not found for Id: {customer.Id}");
 
-            (bool isEmailOrAndCpfExists, string Message) = ValidateEmailAndCpfAlreadyExists(customerFound, customer);
-            if (isEmailOrAndCpfExists) return (false, Message);
+            (bool isEmailOrAndCpfExists, string message) = ValidateEmailAndCpfAlreadyExists(customerFound, customer);
+            if (isEmailOrAndCpfExists) return (false, message);
 
             _dataContext.Update(customer);
             _dataContext.SaveChanges();
@@ -68,7 +68,7 @@ namespace Domain.Services
 
         private bool AnyCustomerForCpf(Customer newCustomer) => _dataContext.Customers.Any(x => x.Cpf == newCustomer.Cpf);
 
-        private (bool IsExists, string Message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
+        private (bool isExists, string message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
         {
             if (newCustomer.Email != oldCustomer.Email)
             {
