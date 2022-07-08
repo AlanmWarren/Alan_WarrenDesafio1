@@ -39,7 +39,7 @@ namespace Application
             return _customerServices.Create(customer);
         }
 
-        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
+        public (bool status, string messageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             var customerToUpdate = _mapper.Map<Customer>(customerToUpdateDto);
             customerToUpdate.Id = id;

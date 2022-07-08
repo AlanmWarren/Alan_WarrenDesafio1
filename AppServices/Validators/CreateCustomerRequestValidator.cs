@@ -48,23 +48,23 @@ namespace Application.Validators
             RuleFor(x => x.Country)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.City)
                 .NotEmpty()
                 .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
                 .Length(8)
-                .Must(x => x.IsValidNumber());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.Adress)
                 .NotEmpty()
                 .MinimumLength(2)
                 .MaximumLength(100)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText());
 
             RuleFor(x => x.Number)
                 .NotEmpty()
@@ -101,9 +101,7 @@ namespace Application.Validators
         {
             cpf = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
 
-            if (!cpf.IsValidNumber()) return false;
-
-            if (cpf.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
+            if (!cpf.IsValidNumber() || cpf.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
 
             var firstDigitAfterDash = 0;
             for (int i = 0; i < cpf.Length - 2; i++)

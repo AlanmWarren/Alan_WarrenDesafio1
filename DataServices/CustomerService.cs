@@ -36,7 +36,7 @@ namespace Domain.Services
             return newCustomer.Id;
         }
 
-        public (bool Status, string MessageResult) Update(Customer customer)
+        public (bool status, string messageResult) Update(Customer customer)
         {
             var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
             if (indexOfCustomerToUpdate == -1) return (false, $"Customer not found for Id: {customer.Id}");

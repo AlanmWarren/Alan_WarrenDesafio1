@@ -14,7 +14,7 @@ namespace Application
 
         public int Create(CreateCustomerRequest newCustomerDto);
 
-        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
+        public (bool status, string messageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
 
         public bool Delete(int id);
     }
