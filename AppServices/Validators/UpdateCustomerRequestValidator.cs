@@ -35,8 +35,8 @@ namespace Application.Validators
 
             RuleFor(x => x.Cellphone)
                 .NotEmpty()
-                .Length(11)
-                .Must(x => x.IsValidNumber());
+                .Must(x => x.IsValidNumber())
+                .Length(11);
 
             RuleFor(x => x.Birthdate)
                 .NotEmpty()
@@ -45,24 +45,26 @@ namespace Application.Validators
 
             RuleFor(x => x.Country)
                 .NotEmpty()
-                .MaximumLength(58)
-                .Must(x => x.IsValidText());
+                .Must(x => x.IsValidText())
+                .MinimumLength(2)
+                .MaximumLength(58);
 
             RuleFor(x => x.City)
                 .NotEmpty()
-                .MaximumLength(58)
-                .Must(x => x.IsValidText());
+                .Must(x => x.IsValidText())
+                .MinimumLength(2)
+                .MaximumLength(58);
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
-                .Length(8)
-                .Must(x => x.IsValidText());
+                .Must(x => x.IsValidNumber())
+                .Length(8);
 
             RuleFor(x => x.Adress)
                 .NotEmpty()
+                .Must(x => x.IsValidText())
                 .MinimumLength(2)
-                .MaximumLength(100)
-                .Must(x => x.IsValidText());
+                .MaximumLength(100);
 
             RuleFor(x => x.Number)
                 .NotEmpty()
