@@ -1,5 +1,5 @@
-﻿using Application.Models.Requests;
-using Application.Validators;
+﻿using Application;
+using Application.Models.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

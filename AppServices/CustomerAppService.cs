@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Domain.Models;
 using Domain.Services;
 
-namespace Application.Validators
+namespace Application
 {
     public class CustomerAppService : ICustomerAppService
     {

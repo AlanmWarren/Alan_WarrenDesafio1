@@ -4,7 +4,7 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Validators
+namespace Application
 {
     public interface ICustomerAppService
     {
