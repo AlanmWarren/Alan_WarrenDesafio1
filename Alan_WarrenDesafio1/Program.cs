@@ -1,7 +1,10 @@
-using Application.Validators;
+using Application;
 using Domain.Services;
 using FluentValidation.AspNetCore;
+using Infrastructure.Data.Context;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
@@ -18,10 +21,14 @@ builder.Services.AddControllers()
         options.RegisterValidatorsFromAssembly(assemblies.First());
     });
 
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("Default"),
+    ServerVersion.Parse("8.0.29-mysql"), config => config.MigrationsAssembly("Infrastructure.Data")));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
 builder.Services.AddAutoMapper((_, mapperConfiguration) => mapperConfiguration.AddMaps(assemblies), assemblies);
 

@@ -1,4 +1,6 @@
 ﻿using Domain.Models;
+using Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +9,24 @@ namespace Domain.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly List<Customer> _customers = new();
+        private readonly DataContext _dataContext;
 
+        public CustomerService(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
         public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
         {
-            if (predicate is null) return _customers;
+            if (predicate is null) return _dataContext.Customers;
 
-            var customers = _customers.Where(predicate);
+            var customers = _dataContext.Customers.Where(predicate);
 
             return customers;
         }
 
         public Customer GetBy(Func<Customer, bool> predicate)
         {
-            var customer = _customers.FirstOrDefault(predicate);
+            var customer = _dataContext.Customers.AsNoTracking().FirstOrDefault(predicate);
 
             return customer;
         }
@@ -29,22 +35,21 @@ namespace Domain.Services
         {
             if (AnyCustomerForCpf(newCustomer) || AnyCustomerForEmail(newCustomer)) return -1;
 
-            int newId = _customers.LastOrDefault()?.Id ?? default;
-
-            newCustomer.Id = newId + 1;
-            _customers.Add(newCustomer);
+            _dataContext.Customers.Add(newCustomer);
+            _dataContext.SaveChanges();
             return newCustomer.Id;
         }
 
         public (bool status, string messageResult) Update(Customer customer)
         {
-            var indexOfCustomerToUpdate = _customers.FindIndex(x => x.Id == customer.Id);
-            if (indexOfCustomerToUpdate == -1) return (false, $"Customer not found for Id: {customer.Id}");
+            var customerFound = GetBy(x => x.Id == customer.Id);
+            if (customerFound is null) return (false, $"Customer not found for Id: {customer.Id}");
 
-            (bool isEmailOrAndCpfExists, string Message) = ValidateEmailAndCpfAlreadyExists(_customers[indexOfCustomerToUpdate], customer);
+            (bool isEmailOrAndCpfExists, string Message) = ValidateEmailAndCpfAlreadyExists(customerFound, customer);
             if (isEmailOrAndCpfExists) return (false, Message);
 
-            _customers[indexOfCustomerToUpdate] = customer;
+            _dataContext.Update(customer);
+            _dataContext.SaveChanges();
 
             return (true, $"Customer for ID: {customer.Id} updated successfully");
         }
@@ -54,12 +59,14 @@ namespace Domain.Services
             var customerToDelete = GetBy(x => x.Id == id);
             if (customerToDelete is null) return false;
 
-            return _customers.Remove(customerToDelete);
+            _dataContext.Remove(customerToDelete);
+            _dataContext.SaveChanges();
+            return true;
         }
 
-        private bool AnyCustomerForEmail(Customer newCustomer) => _customers.Any(x => x.Email == newCustomer.Email);
+        private bool AnyCustomerForEmail(Customer newCustomer) => _dataContext.Customers.Any(x => x.Email == newCustomer.Email);
 
-        private bool AnyCustomerForCpf(Customer newCustomer) => _customers.Any(x => x.Cpf == newCustomer.Cpf);
+        private bool AnyCustomerForCpf(Customer newCustomer) => _dataContext.Customers.Any(x => x.Cpf == newCustomer.Cpf);
 
         private (bool IsExists, string Message) ValidateEmailAndCpfAlreadyExists(Customer oldCustomer, Customer newCustomer)
         {
