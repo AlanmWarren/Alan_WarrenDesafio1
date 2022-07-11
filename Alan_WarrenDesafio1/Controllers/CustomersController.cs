@@ -123,6 +123,7 @@ namespace Alan_WarrenDesafio1.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
                 }
+
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
