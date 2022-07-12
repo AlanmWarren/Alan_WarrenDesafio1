@@ -15,6 +15,7 @@ namespace Domain.Services
         {
             _dataContext = dataContext;
         }
+
         public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
         {
             if (predicate is null) return _dataContext.Customers;
