@@ -22,8 +22,11 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddDbContext<DataContext>(options =>
+{
     options.UseMySql(builder.Configuration.GetConnectionString("Default"),
-    ServerVersion.Parse("8.0.29-mysql"), config => config.MigrationsAssembly("Infrastructure.Data")));
+                    ServerVersion.Parse("8.0.29-mysql"),
+                    config => config.MigrationsAssembly("Infrastructure.Data"));
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
