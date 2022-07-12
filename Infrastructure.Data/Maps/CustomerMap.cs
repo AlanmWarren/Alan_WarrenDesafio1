@@ -32,15 +32,12 @@ namespace Infrastructure.Data.Mappings
                 .IsRequired();
 
             builder.Property(x => x.Birthdate)
-                .HasColumnType("datetime")
                 .IsRequired();
 
             builder.Property(x => x.EmailSms)
-                .HasColumnType("bool")
                 .IsRequired();
 
             builder.Property(x => x.Whatsapp)
-                .HasColumnType("bool")
                 .IsRequired();
 
             builder.Property(x => x.Country)

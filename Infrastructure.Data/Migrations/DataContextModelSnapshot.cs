@@ -1,7 +1,7 @@
-﻿using Infrastructure.Data.Context;
+﻿using System;
+using Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
 
 #nullable disable
 
@@ -24,47 +24,52 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Adress")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Cellphone")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(11)");
 
                     b.Property<string>("City")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(58)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(58)");
 
                     b.Property<string>("Cpf")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(11)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("EmailConfirmation")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
 
                     b.Property<bool>("EmailSms")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("varchar(8)");
 
                     b.Property<bool>("Whatsapp")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer", (string)null);
                 });
 #pragma warning restore 612, 618
         }
