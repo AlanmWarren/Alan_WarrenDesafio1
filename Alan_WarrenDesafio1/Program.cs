@@ -14,11 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var assemblies = Assembly.Load("Application");
+var assemblie = Assembly.Load("Application");
 builder.Services.AddControllers()
     .AddFluentValidation(options =>
     {
-        options.RegisterValidatorsFromAssembly(assemblies);
+        options.RegisterValidatorsFromAssembly(assemblie);
     });
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -33,7 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICustomerAppService, CustomerAppService>();
-builder.Services.AddAutoMapper((_, mapperConfiguration) => mapperConfiguration.AddMaps(assemblies), assemblies);
+builder.Services.AddAutoMapper((_, mapperConfiguration) => mapperConfiguration.AddMaps(assemblie), assemblie);
 
 var app = builder.Build();
 
