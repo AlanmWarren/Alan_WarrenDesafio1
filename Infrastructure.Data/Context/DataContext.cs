@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
 using Infrastructure.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reflection;
 
 namespace Infrastructure.Data.Context
 {
@@ -12,7 +14,8 @@ namespace Infrastructure.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerMap).Assembly);
+            var assemblies = Assembly.Load("Infrastructure.Data");
+            modelBuilder.ApplyConfigurationsFromAssembly(assemblies);
         }
     }
 }
