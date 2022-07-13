@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220712134901_CustomerMigration")]
+    [Migration("20220713155549_CustomerMigration")]
     partial class CustomerMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

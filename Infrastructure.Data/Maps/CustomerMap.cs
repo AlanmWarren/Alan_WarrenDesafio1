@@ -12,6 +12,8 @@ namespace Infrastructure.Data.Mappings
 
             builder.HasKey(x => x.Id);
 
+            builder.Ignore(x => x.EmailConfirmation);
+
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
 
@@ -39,7 +41,7 @@ namespace Infrastructure.Data.Mappings
 
             builder.Property(x => x.Whatsapp)
                 .IsRequired();
-
+            
             builder.Property(x => x.Country)
                 .HasColumnType("varchar(58)")
                 .IsRequired();
