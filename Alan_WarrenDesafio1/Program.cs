@@ -14,11 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var assemblies = new[] { Assembly.Load("Application") };
+var assemblies = Assembly.Load("Application");
 builder.Services.AddControllers()
     .AddFluentValidation(options =>
     {
-        options.RegisterValidatorsFromAssembly(assemblies.First());
+        options.RegisterValidatorsFromAssembly(assemblies);
     });
 
 builder.Services.AddDbContext<DataContext>(options =>
