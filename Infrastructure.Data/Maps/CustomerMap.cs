@@ -22,7 +22,7 @@ namespace Infrastructure.Data.Mappings
                 .IsRequired();
 
             builder.Property(x => x.Email)
-                .HasColumnType("varchar(300)")
+                .HasColumnType("varchar(256)")
                 .IsRequired();
 
             builder.Property(x => x.Cpf)
