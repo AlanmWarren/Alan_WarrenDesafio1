@@ -12,10 +12,7 @@ namespace Infrastructure.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>().Ignore(x => x.EmailConfirmation);
-            modelBuilder.ApplyConfiguration(new CustomerMap());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerMap).Assembly);
         }
-
-
     }
 }
