@@ -4,7 +4,7 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Validators
+namespace Application
 {
     public interface ICustomerAppService
     {
@@ -14,7 +14,7 @@ namespace Application.Validators
 
         public int Create(CreateCustomerRequest newCustomerDto);
 
-        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
+        public (bool status, string messageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
 
         public bool Delete(int id);
     }

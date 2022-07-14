@@ -1,5 +1,5 @@
-﻿using Application.Models.Requests;
-using Application.Validators;
+﻿using Application;
+using Application.Models.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -123,6 +123,7 @@ namespace Alan_WarrenDesafio1.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
                 }
+
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

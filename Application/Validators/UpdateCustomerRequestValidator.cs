@@ -7,15 +7,15 @@ using System.Linq;
 
 namespace Application.Validators
 {
-    public class CreateCustomerRequestValidator : AbstractValidator<CreateCustomerRequest>
+    public class UpdateCustomerRequestValidator : AbstractValidator<UpdateCustomerRequest>
     {
-        public CreateCustomerRequestValidator()
+        public UpdateCustomerRequestValidator()
         {
             RuleFor(x => x.FullName)
-                .NotEmpty()
-                .MinimumLength(2)
-                .MaximumLength(300)
-                .Must(x => x.IsValidFullName());
+                 .NotEmpty()
+                 .MinimumLength(2)
+                 .MaximumLength(300)
+                 .Must(x => x.IsValidFullName());
 
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -24,8 +24,6 @@ namespace Application.Validators
                 .EmailAddress(EmailValidationMode.Net4xRegex);
 
             RuleFor(x => x)
-                .Must(x => x.Email == x.EmailConfirmation)
-                .WithMessage("'Email' and 'EmailConfirmation' should be equals")
                 .Must(x => x.EmailSms && !x.Whatsapp || !x.EmailSms && x.Whatsapp || x.EmailSms && x.Whatsapp)
                 .WithMessage("At least one or both 'EmailSms' or/and 'Whatsapp' must be true");
 
@@ -37,8 +35,8 @@ namespace Application.Validators
 
             RuleFor(x => x.Cellphone)
                 .NotEmpty()
-                .Length(11)
-                .Must(x => x.IsValidNumber());
+                .Must(x => x.IsValidNumber())
+                .Length(11);
 
             RuleFor(x => x.Birthdate)
                 .NotEmpty()
@@ -47,24 +45,26 @@ namespace Application.Validators
 
             RuleFor(x => x.Country)
                 .NotEmpty()
-                .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText())
+                .MinimumLength(2)
+                .MaximumLength(58);
 
             RuleFor(x => x.City)
                 .NotEmpty()
-                .MaximumLength(58)
-                .Must(x => x.IsValidLetter());
+                .Must(x => x.IsValidText())
+                .MinimumLength(2)
+                .MaximumLength(58);
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty()
-                .Length(8)
-                .Must(x => x.IsValidNumber());
+                .Must(x => x.IsValidNumber())
+                .Length(8);
 
             RuleFor(x => x.Adress)
                 .NotEmpty()
+                .Must(x => x.IsValidText())
                 .MinimumLength(2)
-                .MaximumLength(100)
-                .Must(x => x.IsValidLetter());
+                .MaximumLength(100);
 
             RuleFor(x => x.Number)
                 .NotEmpty()
@@ -101,7 +101,7 @@ namespace Application.Validators
         {
             cpf = cpf.Replace(".", string.Empty).Replace("-", string.Empty);
 
-            if (cpf.Any(x => !char.IsDigit(x))) return false;
+            if (!cpf.IsValidNumber() || cpf.AllCharacteresArentEqualsToTheFirstCharacter()) return false;
 
             var firstDigitAfterDash = 0;
             for (int i = 0; i < cpf.Length - 2; i++)

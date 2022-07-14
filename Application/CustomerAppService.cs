@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Domain.Models;
 using Domain.Services;
 
-namespace Application.Validators
+namespace Application
 {
     public class CustomerAppService : ICustomerAppService
     {
@@ -22,22 +22,24 @@ namespace Application.Validators
         public IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null)
         {
             var customers = _customerServices.GetAll(predicate);
-            return _mapper.Map<IEnumerable<CustomerResult>>(customers);
+            var result = _mapper.Map<IEnumerable<CustomerResult>>(customers);
+            return result;
         }
 
         public CustomerResult GetBy(Func<Customer, bool> predicate)
         {
             var customer = _customerServices.GetBy(predicate);
-            return _mapper.Map<CustomerResult>(customer);
+            var result = _mapper.Map<CustomerResult>(customer);
+            return result;
         }
 
         public int Create(CreateCustomerRequest newCustomerDto)
         {
-            var newCustomer = _mapper.Map<Customer>(newCustomerDto);
-            return _customerServices.Create(newCustomer);
+            var customer = _mapper.Map<Customer>(newCustomerDto);
+            return _customerServices.Create(customer);
         }
 
-        public (bool Status, string MessageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
+        public (bool status, string messageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto)
         {
             var customerToUpdate = _mapper.Map<Customer>(customerToUpdateDto);
             customerToUpdate.Id = id;
