@@ -14,8 +14,8 @@ namespace Infrastructure.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var assemblie = Assembly.Load("Infrastructure.Data");
-            modelBuilder.ApplyConfigurationsFromAssembly(assemblie);
+            var assembly = Assembly.Load("Infrastructure.Data");
+            modelBuilder.ApplyConfigurationsFromAssembly(assembly);
         }
     }
 }
