@@ -12,9 +12,7 @@ namespace Domain.Services
         private readonly DataContext _dataContext;
 
         public CustomerService(DataContext dataContext)
-        {
-            _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
-        }
+            => _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
 
         public IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null)
         {

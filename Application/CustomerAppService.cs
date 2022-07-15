@@ -46,9 +46,6 @@ namespace Application
             return _customerServices.Update(customerToUpdate);
         }
 
-        public bool Delete(int id)
-        {
-            return _customerServices.Delete(id);
-        }
+        public bool Delete(int id) => _customerServices.Delete(id);
     }
 }

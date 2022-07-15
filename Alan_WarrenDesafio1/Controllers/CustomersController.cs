@@ -14,9 +14,7 @@ namespace Alan_WarrenDesafio1.Controllers
         private readonly ICustomerAppService _customersAppService;
 
         public CustomersController(ICustomerAppService customerAppService)
-        {
-            _customersAppService = customerAppService;
-        }
+            => _customersAppService = customerAppService ?? throw new ArgumentNullException(nameof(customerAppService));
 
         [HttpGet]
         public IActionResult GetAll()
