@@ -1,14 +1,15 @@
 ﻿using Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Domain.Services
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetAll(Func<Customer, bool> predicate = null);
+        IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>> predicate = null);
 
-        Customer GetBy(Func<Customer, bool> predicate);
+        Customer GetBy(Expression<Func<Customer, bool>> predicate);
 
         public int Create(Customer newCustomer);
 

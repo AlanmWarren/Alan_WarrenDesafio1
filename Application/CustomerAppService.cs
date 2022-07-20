@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Domain.Models;
 using Domain.Services;
+using System.Linq.Expressions;
 
 namespace Application
 {
@@ -19,14 +20,14 @@ namespace Application
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null)
+        public IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicate = null)
         {
             var customers = _customerServices.GetAll(predicate);
             var result = _mapper.Map<IEnumerable<CustomerResult>>(customers);
             return result;
         }
 
-        public CustomerResult GetBy(Func<Customer, bool> predicate)
+        public CustomerResult GetBy(Expression<Func<Customer, bool>> predicate)
         {
             var customer = _customerServices.GetBy(predicate);
             var result = _mapper.Map<CustomerResult>(customer);

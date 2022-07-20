@@ -3,14 +3,15 @@ using Application.Models.Response;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Application
 {
     public interface ICustomerAppService
     {
-        IEnumerable<CustomerResult> GetAll(Func<Customer, bool> predicate = null);
+        IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicate = null);
 
-        CustomerResult GetBy(Func<Customer, bool> predicate);
+        CustomerResult GetBy(Expression<Func<Customer, bool>> predicate);
 
         public int Create(CreateCustomerRequest newCustomerDto);
 
