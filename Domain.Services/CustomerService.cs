@@ -9,13 +9,16 @@ namespace Domain.Services
     public class CustomerService : ICustomerService
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public CustomerService(IUnitOfWork unitOfWork)
-            => _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        private readonly IRepositoryFactory _repositoryFactory;
+        public CustomerService(IUnitOfWork unitOfWork, IRepositoryFactory repositoryFactory)
+        {
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+        }
 
         public IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>> predicate = null)
         {
-            var repository = _unitOfWork.Repository<Customer>();
+            var repository = _repositoryFactory.Repository<Customer>();
 
             if (predicate is null)
             {
@@ -36,7 +39,7 @@ namespace Domain.Services
 
         public Customer GetBy(Expression<Func<Customer, bool>> predicate)
         {
-            var repository = _unitOfWork.Repository<Customer>();
+            var repository = _repositoryFactory.Repository<Customer>();
 
             var query = repository.SingleResultQuery()
                                   .AndFilter(predicate);
@@ -53,7 +56,6 @@ namespace Domain.Services
                 _unitOfWork.Rollback();
                 return -1;
             }
-
             var repository = _unitOfWork.Repository<Customer>();
 
             repository.Add(newCustomer);
@@ -101,14 +103,14 @@ namespace Domain.Services
 
         private bool AnyCustomerForEmail(Customer newCustomer)
         {
-            var repository = _unitOfWork.Repository<Customer>();
+            var repository = _repositoryFactory.Repository<Customer>();
 
             return repository.Any(x => x.Email == newCustomer.Email);
         }
 
         private bool AnyCustomerForCpf(Customer newCustomer)
         {
-            var repository = _unitOfWork.Repository<Customer>();
+            var repository = _repositoryFactory.Repository<Customer>();
 
             return repository.Any(x => x.Cpf == newCustomer.Cpf);
         }
