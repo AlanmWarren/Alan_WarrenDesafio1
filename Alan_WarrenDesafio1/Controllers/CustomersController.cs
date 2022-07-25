@@ -77,11 +77,11 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                var customerId = _customersAppService.Create(newCustomerDto);
+                var (status, messageResult) = _customersAppService.Create(newCustomerDto);
 
-                return customerId is -1
-                    ? BadRequest("Customer already exists, please insert a new customer")
-                    : Created("~api/customer", $"New customer created with Id: {customerId}");
+                return !status
+                    ? BadRequest(messageResult)
+                    : Created("~api/customer", messageResult);
             });
         }
 

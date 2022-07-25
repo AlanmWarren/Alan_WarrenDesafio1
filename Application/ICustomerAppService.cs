@@ -9,11 +9,13 @@ namespace Application
 {
     public interface ICustomerAppService
     {
+        IEnumerable<CustomerResult> GetAll();
+
         IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicate = null);
 
         CustomerResult GetBy(Expression<Func<Customer, bool>> predicate);
 
-        public int Create(CreateCustomerRequest newCustomerDto);
+        public (bool status, string messageResult) Create(CreateCustomerRequest newCustomerDto);
 
         public (bool status, string messageResult) Update(int id, UpdateCustomerRequest customerToUpdateDto);
 

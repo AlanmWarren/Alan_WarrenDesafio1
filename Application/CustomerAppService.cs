@@ -20,6 +20,13 @@ namespace Application
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public IEnumerable<CustomerResult> GetAll()
+        {
+            var customers = _customerServices.GetAll();
+            var result = _mapper.Map<IEnumerable<CustomerResult>>(customers);
+            return result;
+        }
+
         public IEnumerable<CustomerResult> GetAll(Expression<Func<Customer, bool>> predicate = null)
         {
             var customers = _customerServices.GetAll(predicate);
@@ -34,7 +41,7 @@ namespace Application
             return result;
         }
 
-        public int Create(CreateCustomerRequest newCustomerDto)
+        public (bool status, string messageResult) Create(CreateCustomerRequest newCustomerDto)
         {
             var customer = _mapper.Map<Customer>(newCustomerDto);
             return _customerServices.Create(customer);
