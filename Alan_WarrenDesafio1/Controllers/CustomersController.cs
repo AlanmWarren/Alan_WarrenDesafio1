@@ -103,9 +103,8 @@ namespace Alan_WarrenDesafio1.Controllers
         {
             return SafeAction(() =>
             {
-                return !_customersAppService.Delete(id)
-                    ? NotFound()
-                    : NoContent();
+                _customersAppService.Delete(id);
+                return NoContent();
             });
         }
 
